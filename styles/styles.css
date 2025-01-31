@@ -1,0 +1,136 @@
+/* 전체 레이아웃 */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f8f8;
+}
+
+/* 네비게이션 바 */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 1.2em 5%;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5em;
+}
+
+.nav-links li {
+  display: inline;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: black;
+  font-size: 1em;
+}
+
+.login-button {
+  text-decoration: none;
+  color: black;
+  font-size: 1em;
+  padding: 0.5em 1em;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+/* 로그인 폼 */
+.login-container {
+  width: 90%;
+  max-width: 400px;
+  margin: 5% auto;
+  text-align: center;
+  background: white;
+  padding: 2em;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 입력 필드 */
+input[type="email"], input[type="password"] {
+  width: 100%;
+  padding: 1em;
+  margin: 0.5em 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+/* 비밀번호 입력 컨테이너 */
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-container .toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1.2em;
+}
+
+/* 로그인 상태 유지 */
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1em 0;
+  font-size: 0.9em;
+}
+
+/* 체크박스 커스텀 */
+.remember-me {
+  display: flex;
+  align-items: center;
+}
+
+.remember-me input {
+  display: none;
+}
+
+.remember-me .checkmark {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.5em;
+  text-align: center;
+  font-size: 1em;
+}
+
+/* 로그인 버튼 */
+.login-btn {
+  width: 100%;
+  padding: 1em;
+  font-size: 1em;
+  background-color: #F4C542;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background-color: #E3B133;
+}
+
+/* 회원가입 링크 */
+.signup-link {
+  text-align: center;
+  margin-top: 1em;
+  font-size: 0.9em;
+}
