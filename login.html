@@ -1,56 +1,0 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인 - 다독다독</title>
-    <link rel="stylesheet" href="styles/styles.css">
-</head>
-<body>
-
-    <!-- 네비게이션 바 -->
-    <header>
-        <nav class="navbar">
-            <div class="logo">다독다독</div>
-            <ul class="nav-links">
-                <li><a href="index.html">전체 도서</a></li>
-                <li><a href="recommendations.html">추천 도서</a></li>
-                <li><a href="reviews.html">감상문</a></li>
-                <li><a href="goals.html">목표 및 통계</a></li>
-            </ul>
-            <a href="login.html" class="login-button">로그인</a>
-        </nav>
-    </header>
-
-    <!-- 로그인 폼 -->
-    <main class="login-container">
-        <h1>로그인</h1>
-        <form id="login-form">
-            <label for="email">아이디</label>
-            <input type="email" id="email" placeholder="hicc@example.com" required>
-
-            <label for="password">비밀번호</label>
-            <div class="password-container">
-                <input type="password" id="password" placeholder="비밀번호 입력" required>
-                <span class="toggle-password" onclick="togglePassword()">🔒</span>
-            </div>
-
-            <div class="login-options">
-                <label class="remember-me">
-                    <input type="checkbox" id="remember-me">
-                    <span class="checkmark">✔️</span> 로그인 상태 유지
-                </label>
-                <a href="#">아이디 / 비밀번호 찾기</a>
-            </div>
-
-            <button type="submit" class="login-btn">로그인</button>
-        </form>
-
-        <hr>
-
-        <p class="signup-link"><a href="register.html">회원가입하기</a></p>
-    </main>
-
-    <script src="scripts/login.js"></script>
-</body>
-</html>

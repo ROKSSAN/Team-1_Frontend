@@ -1,0 +1,98 @@
+/* 로그인 페이지 스타일 */
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 10% auto 0;
+  text-align: center;
+  background: white;
+  padding: 2.5em;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 입력 필드 스타일 - 비밀번호 보기 기능과 관계없이 동일 적용 */
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  width: 100%;
+  padding: 1em;
+  margin: 0.8em 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1em;
+  box-sizing: border-box;
+  background-color: #f8f8f8;
+  color: #333;
+  height: 48px; /* 높이를 고정하여 변경되지 않도록 */
+  appearance: none;
+}
+
+/* 플레이스홀더 색상 */
+input::placeholder {
+  color: #bbb;
+}
+
+/* 비밀번호 입력 필드 스타일 */
+.password-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 40px; /* 아이콘과의 간격 확보 */
+  box-sizing: border-box;
+  height: 48px;
+  font-size: 1em;
+  border: 1px solid #ddd;
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+/* 비밀번호 보기 아이콘 */
+.password-container .toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+  height: 48px; /* 입력 필드 높이에 맞춤 */
+}
+
+/* 로그인 상태 유지 및 아이디 찾기 */
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1em 0;
+  font-size: 0.9em;
+}
+
+/* 로그인 버튼 */
+.login-btn {
+  width: 100%;
+  padding: 1.2em;
+  font-size: 1.1em;
+  background-color: #FFC200; /* 시그니처 컬러 */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.login-btn:hover {
+  background-color: #E0A800;
+}
+
+/* 회원가입 링크 */
+.signup-link {
+  text-align: center;
+  margin-top: 1.5em;
+  font-size: 0.9em;
+}

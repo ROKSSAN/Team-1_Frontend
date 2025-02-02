@@ -1,0 +1,191 @@
+/* Pretendard 폰트 적용 */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/Pretendard/dist/web/static/pretendard.css');
+
+/* 전체 레이아웃 */
+body {
+  font-family: 'Pretendard', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f8f8;
+}
+
+/* 네비게이션 바 */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 1vh 5%;
+  border-bottom: 1px solid #ddd;
+  height: 6vh;
+  min-height: 60px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 10px 10px;
+}
+
+/* 로고 */
+.navbar .logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.navbar .logo img {
+  height: 2.8rem;
+  margin-right: 0.5rem;
+}
+
+.navbar .logo-text {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar .logo-text .first {
+  color: #FFC200; /* 시그니처 컬러 */
+}
+
+.navbar .logo-text .second {
+  color: #AFA1A1; /* 회색 계열 */
+}
+
+/* 네비게이션 링크 */
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2vw;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  display: inline-block;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: black;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-links a:hover {
+  color: #FFC200;
+}
+
+/* 검색창 - 아이폰 스타일에 맞춘 얇고 둥근 스타일 */
+.search-bar {
+  flex: 1;
+  max-width: 400px; /* 가로 길이 */
+  height: 30px; /* 세로 높이 */
+  padding: 5px 16px; /* 내부 여백 */
+  border: 1px solid #ddd;
+  border-radius: 18px; /* 둥글게 설정 */
+  font-size: 0.9rem;
+  text-align: left;
+  outline: none;
+  background-color: #f8f8f8;
+  transition: border 0.3s ease-in-out;
+}
+
+.search-bar:focus {
+  border: 1px solid #FFC200;
+}
+
+/* 로그인 / 내 정보 버튼 */
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-actions .login-button,
+.user-actions .profile-button,
+.user-actions .logout-button {
+  text-decoration: none;
+  color: black;
+  font-size: 1rem;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid black;
+  border-radius: 25px;
+  transition: background 0.3s ease-in-out;
+  white-space: nowrap;
+  background: white;
+}
+
+.user-actions .login-button:hover,
+.user-actions .profile-button:hover,
+.user-actions .logout-button:hover {
+  background: #FFC200;
+  color: white;
+  border: 1px solid #FFC200;
+}
+
+/* 반응형 스타일 - 화면 크기에 맞춰 정렬 */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 1vh 3%;
+    height: 9vh;
+  }
+
+  .nav-links {
+    gap: 1.5vw;
+  }
+
+  .search-bar {
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: auto;
+    padding: 1vh 3%;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    gap: 1vw;
+  }
+
+  .search-bar {
+    flex-grow: 1;
+    max-width: 250px;
+  }
+
+  .user-actions {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5vh 2%;
+    height: auto;
+  }
+
+  .nav-links {
+    flex-direction: row;
+    gap: 2vw;
+    justify-content: center;
+  }
+
+  .search-bar {
+    max-width: 220px;
+  }
+
+  .user-actions {
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+}

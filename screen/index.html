@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 - 다독다독</title>
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/login.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo">
+                <img src="../assets/images/logo.png" alt="다독다독 로고">
+                <span class="logo-text">
+                    <span class="first">다독</span><span class="second">다독</span>
+                </span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="library.html">내 서재</a></li>
+                <li><a href="goals.html">목표 및 통계</a></li>
+            </ul>
+            <input type="text" class="search-bar" placeholder="검색">
+            <div class="user-actions">
+                <a href="login.html" class="login-button" id="login-btn">로그인</a>
+                <button class="logout-button" id="logout-btn" style="display: none;">로그아웃</button>
+                <a href="mypage.html" class="profile-button" id="profile-btn" style="display: none;">내 정보</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="login-container">
+        <h1>로그인</h1>
+        <form id="login-form">
+            <label for="username">아이디 또는 이메일</label>
+            <input type="text" id="username" placeholder="아이디 또는 이메일 입력" required>
+
+            <label for="password">비밀번호</label>
+            <div class="password-container">
+                <input type="password" id="password" placeholder="비밀번호 입력" required>
+                <span class="toggle-password" onclick="togglePassword()">👁️</span>
+            </div>
+
+            <div class="login-options">
+                <label class="remember-me">
+                    <input type="checkbox" id="remember-me">
+                    <span class="checkmark"></span> 로그인 상태 유지
+                </label>
+                <a href="#">아이디 / 비밀번호 찾기</a>
+            </div>
+
+            <button type="submit" class="login-btn">로그인</button>
+        </form>
+
+        <hr>
+
+        <p class="signup-link"><a href="register.html">회원가입하기</a></p>
+    </main>
+
+    <script src="../scripts/login.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const isLoggedIn = localStorage.getItem("token") !== null;
+            const loginBtn = document.getElementById("login-btn");
+            const logoutBtn = document.getElementById("logout-btn");
+            const profileBtn = document.getElementById("profile-btn");
+
+            if (isLoggedIn) {
+                loginBtn.style.display = "none";
+                logoutBtn.style.display = "inline-block";
+                profileBtn.style.display = "inline-block";
+            } else {
+                loginBtn.style.display = "inline-block";
+                logoutBtn.style.display = "none";
+                profileBtn.style.display = "none";
+            }
+
+            logoutBtn.addEventListener("click", () => {
+                localStorage.removeItem("token");
+                window.location.reload();
+            });
+        });
+
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
+            const toggleIcon = document.querySelector(".toggle-password");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleIcon.textContent = "🙈"; // 비밀번호 보이는 상태
+            } else {
+                passwordInput.type = "password";
+                toggleIcon.textContent = "👁️"; // 비밀번호 숨긴 상태
+            }
+        }
+    </script>
+</body>
+</html>

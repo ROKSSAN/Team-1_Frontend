@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지 - 다독다독</title>
+
+    <!-- 공통 스타일 -->
+    <link rel="stylesheet" href="styles/global.css">
+
+    <!-- 마이페이지 전용 스타일 -->
+    <link rel="stylesheet" href="styles/mypage.css">
+</head>
+
+<body>
+
+    <!-- 네비게이션 바 -->
+    <header>
+        <nav class="navbar">
+            <!-- 로고 -->
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo.png" alt="다독다독 로고">
+                다독다독
+            </a>
+    
+            <!-- 네비게이션 메뉴 -->
+            <ul class="nav-links">
+                <li><a href="library.html">내 서재</a></li>
+                <li><a href="goals.html">목표 및 통계</a></li>
+            </ul>
+    
+            <!-- 검색창 -->
+            <input type="text" class="search-bar" placeholder="검색">
+    
+            <!-- 로그인/로그아웃 버튼 -->
+            <div class="user-actions">
+                <a href="login.html" class="login-button" id="login-btn">로그인</a>
+                <a href="mypage.html" class="profile-button" id="profile-btn" style="display: none;">내 정보</a>
+                <button class="logout-button" id="logout-btn" style="display: none;">로그아웃</button>
+            </div>
+        </nav>
+    </header>
+        <!-- 마이페이지 컨테이너 -->
+    <main class="mypage-container">
+        <!-- 프로필 섹션 -->
+        <section class="profile-section">
+            <h2 class="section-title">내 정보</h2>
+            <div class="profile-box">
+                <img src="assets/images/default-profile.png" alt="프로필 사진" class="profile-img">
+                <h3 id="nickname">닉네임</h3>
+                <div class="user-info">
+                    <p>아이디: <span id="user-email">hicc@example.com</span> <button class="edit-btn">수정</button></p>
+                    <p>비밀번호: <span>********</span> <button class="edit-btn">수정</button></p>
+                </div>
+                <button class="delete-account">회원 탈퇴</button>
+            </div>
+        </section>
+
+        <!-- 목표 설정 및 통계 -->
+        <section class="goal-section">
+            <h2 class="section-title">목표 설정</h2>
+            <div class="goal-box">
+                <label for="goal-input">연간 목표 독서량</label>
+                <input type="number" id="goal-input" placeholder="책 개수 입력">
+                <button class="set-goal-btn">설정</button>
+            </div>
+            <div class="progress-container">
+                <h3>진행 상황</h3>
+                <progress id="goal-progress" value="0" max="100"></progress>
+                <p id="progress-text">0 / 100권</p>
+            </div>
+        </section>
+
+        <!-- 작성 댓글 -->
+        <section class="comment-list">
+            <h3 class="section-title">작성 댓글</h3>
+            <table>
+                <tr>
+                    <th>댓글 내용</th>
+                    <th>날짜</th>
+                </tr>
+                <tbody id="comment-list"></tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="scripts/mypage.js"></script>
+    <script src="scripts/auth.js"></script> <!-- 로그인 상태 관리 -->
+</body>
+</html>
