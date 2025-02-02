@@ -39,7 +39,7 @@
             <label for="password">비밀번호</label>
             <div class="password-container">
                 <input type="password" id="password" placeholder="비밀번호 입력" required>
-                <span class="toggle-password" onclick="togglePassword()">👁️</span>
+                <span class="toggle-password">🙈</span>
             </div>
 
             <div class="login-options">
@@ -59,41 +59,5 @@
     </main>
 
     <script src="../scripts/login.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const isLoggedIn = localStorage.getItem("token") !== null;
-            const loginBtn = document.getElementById("login-btn");
-            const logoutBtn = document.getElementById("logout-btn");
-            const profileBtn = document.getElementById("profile-btn");
-
-            if (isLoggedIn) {
-                loginBtn.style.display = "none";
-                logoutBtn.style.display = "inline-block";
-                profileBtn.style.display = "inline-block";
-            } else {
-                loginBtn.style.display = "inline-block";
-                logoutBtn.style.display = "none";
-                profileBtn.style.display = "none";
-            }
-
-            logoutBtn.addEventListener("click", () => {
-                localStorage.removeItem("token");
-                window.location.reload();
-            });
-        });
-
-        function togglePassword() {
-            const passwordInput = document.getElementById("password");
-            const toggleIcon = document.querySelector(".toggle-password");
-
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                toggleIcon.textContent = "🙈"; // 비밀번호 보이는 상태
-            } else {
-                passwordInput.type = "password";
-                toggleIcon.textContent = "👁️"; // 비밀번호 숨긴 상태
-            }
-        }
-    </script>
 </body>
 </html>

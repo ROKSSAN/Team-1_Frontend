@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const isEmail = emailPattern.test(identifier);
 
             const loginData = {
-                identifier, // 아이디 또는 이메일
+                [isEmail ? "email" : "username"]: identifier, // 이메일이면 email 필드, 아니면 username 필드로 전송
                 password
             };
 
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (response.ok) {
                     alert("로그인 성공!");
                     localStorage.setItem("token", result.token); // JWT 토큰 저장
-                    window.location.href = "index.html"; // 메인 페이지로 이동
+                    window.location.href = "main.html"; // 로그인 후 메인 페이지로 이동
                 } else {
                     alert(result.error || "로그인 실패. 다시 시도해주세요.");
                 }
@@ -61,4 +61,26 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+    // 로그인 상태 관리
+    const loginBtn = document.getElementById("login-btn");
+    const logoutBtn = document.getElementById("logout-btn");
+    const profileBtn = document.getElementById("profile-btn");
+
+    const isLoggedIn = localStorage.getItem("token") !== null;
+
+    if (isLoggedIn) {
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "inline-block";
+        profileBtn.style.display = "inline-block";
+    } else {
+        loginBtn.style.display = "inline-block";
+        logoutBtn.style.display = "none";
+        profileBtn.style.display = "none";
+    }
+
+    logoutBtn.addEventListener("click", () => {
+        localStorage.removeItem("token");
+        window.location.reload();
+    });
 });
