@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>다독다독 - 홈</title>
     <link rel="stylesheet" href="../styles/global.css">
-    <link rel="stylesheet" href="../styles/index.css">
+    <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
     <header>
@@ -22,81 +22,47 @@
             </ul>
             <input type="text" class="search-bar" placeholder="검색">
             <div class="user-actions">
-                <button class="logout-button" id="logout-btn">로그아웃</button>
-                <a href="mypage.html" class="profile-button" id="profile-btn">내 정보</a>
+                <button class="logout-button" id="logout-btn" style="display: none;">로그아웃</button>
+                <a href="mypage.html" class="profile-button" id="profile-btn" style="display: none;">내 정보</a>
+                <a href="index.html" class="login-button" id="login-btn">로그인</a>
             </div>
         </nav>
     </header>
     
-    <main>
-        <section class="main-banner">
-            <div class="banner-content">
-                <h2>독서를 쉽게 기록하고, <br>다른 사람들과 의견을 나눠보세요.</h2>
+    <!-- 배너 섹션 -->
+    <section class="main-banner">
+        <div class="banner-text">
+            독서를 쉽게 기록하고, <br>다른 사람들과 의견을 나눠보세요.
+        </div>
+    </section>
+    
+    <!-- 대시보드 -->
+    <main class="dashboard">
+        <!-- 최근 도서 -->
+        <div class="recent-books">
+            <h2>📚 최근 도서</h2>
+            <div class="books-container">
+                <div class="book-card">바깥은 여름</div>
+                <div class="book-card">달과 6펜스</div>
+                <div class="book-card">행릿</div>
+                <div class="book-card">바람과 함께 사라지다</div>
+                <div class="book-card">이방인</div>
+                <div class="book-card">동물농장</div>
             </div>
-            <img src="../assets/images/banner.png" alt="책을 읽는 사람">
-        </section>
+        </div>
         
-        <section class="dashboard">
-            <div class="recent-books">
-                <h2>📚 최근 도서</h2>
-                <div class="books-grid" id="recent-books">
-                    <!-- JS에서 동적 생성 -->
-                </div>
+        <!-- 내 목표 -->
+        <div class="reading-goals">
+            <h2>🎯 내 목표</h2>
+            <p>올해 목표: <strong id="goal-target">-</strong></p>
+            <p>현재 읽은 책: <strong id="goal-progress">-</strong></p>
+            <div class="goal-graph">
+                <img src="../assets/images/goal-chart.png" alt="독서 목표 그래프">
             </div>
-            
-            <div class="reading-goals">
-                <h2>🎯 내 목표</h2>
-                <p>이번 달 목표: <strong id="goal-target">-</strong></p>
-                <p>현재 읽은 책: <strong id="goal-progress">-</strong></p>
-                <div class="goal-progress">
-                    <progress id="progress-bar" value="0" max="10"></progress>
-                    <span id="progress-text">0% 달성</span>
-                </div>
-            </div>
-        </section>
+        </div>
     </main>
     
     <script src="../scripts/main.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // 로그인 상태 확인
-            const isLoggedIn = localStorage.getItem("token") !== null;
-            const logoutBtn = document.getElementById("logout-btn");
-            const profileBtn = document.getElementById("profile-btn");
-            
-            if (!isLoggedIn) {
-                window.location.href = "index.html";
-            }
-
-            logoutBtn.addEventListener("click", () => {
-                localStorage.removeItem("token");
-                window.location.href = "index.html";
-            });
-
-            // 최근 리뷰가 추가된 도서 목록 가져오기
-            fetch("../data/recent-reviews.json")
-                .then(response => response.json())
-                .then(data => {
-                    const bookGrid = document.getElementById("recent-books");
-                    bookGrid.innerHTML = data.books.map(book => `
-                        <div class="book-card">${book.title}</div>
-                    `).join("");
-                })
-                .catch(error => console.error("최근 도서 데이터를 불러오는 중 오류 발생:", error));
-
-            // 목표 데이터 가져오기
-            fetch("../data/user-goals.json")
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("goal-target").textContent = `${data.target}권`;
-                    document.getElementById("goal-progress").textContent = `${data.current}권`;
-                    document.getElementById("progress-bar").value = data.current;
-                    document.getElementById("progress-bar").max = data.target;
-                    document.getElementById("progress-text").textContent = 
-                        `${Math.round((data.current / data.target) * 100)}% 달성`;
-                })
-                .catch(error => console.error("목표 데이터를 불러오는 중 오류 발생:", error));
-        });
-    </script>
+    <script src="../scripts/auth.js"></script>
 </body>
 </html>

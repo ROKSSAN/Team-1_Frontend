@@ -1,46 +1,120 @@
-/* 메인 페이지 스타일 */
+/* 전체 레이아웃 */
 body {
   font-family: 'Pretendard', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f8f8f8;
+  background-color: #ffffff;
 }
 
-/* 메인 배너 */
-.main-banner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: linear-gradient(120deg, #ffcc80, #f48fb1);
-  color: white;
-  padding: 2em 5%;
+/* 로그인 페이지 스타일 */
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 4% auto 0;
+  text-align: center;
+  background: white;
+  padding: 2rem;
   border-radius: 10px;
-  margin: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.main-banner img {
-  height: 150px;
-}
-
-.banner-content {
-  max-width: 50%;
-}
-
-.banner-content h2 {
+.login-title {
   font-size: 1.8rem;
-  margin-bottom: 10px;
+  font-weight: bold;
+  margin-bottom: 1.2rem;
 }
 
-/* 책 리스트 */
-.book-list {
-  display: flex;
-  overflow-x: auto;
-  gap: 10px;
-  padding: 10px 5%;
-}
-
-.book-list img {
-  width: 120px;
-  height: auto;
+/* 입력 필드 */
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 0.8rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ddd;
   border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+/* 비밀번호 입력 필드 */
+.password-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 40px;
+  height: 48px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+/* 비밀번호 보기 아이콘 */
+.password-container .toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+/* 로그인 버튼 */
+.login-btn {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  background-color: #FFC200;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.login-btn:hover {
+  background-color: #E0A800;
+}
+
+/* 회원가입 및 아이디 찾기 */
+.login-options {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0.8rem 0;
+}
+
+.login-options a {
+  font-size: 0.9rem;
+  color: #555;
+  text-decoration: none;
+}
+
+.signup-link {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+  .login-container {
+    margin: 2% auto 0;
+    padding: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 1.5rem;
+  }
 }

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 서재 - 다독다독</title>
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/library.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="main.html" class="logo">
+                <img src="../assets/images/logo.png" alt="다독다독 로고">
+                <span class="logo-text">
+                    <span class="first">다독</span><span class="second">다독</span>
+                </span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="library.html">내 서재</a></li>
+                <li><a href="goals.html">목표 및 통계</a></li>
+            </ul>
+            <input type="text" class="search-bar" placeholder="검색">
+            <div class="user-actions">
+                <button class="logout-button" id="logout-btn">로그아웃</button>
+                <a href="mypage.html" class="profile-button" id="profile-btn">내 정보</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="library-container">
+        <h1 id="library-title">000님의 서재</h1>
+
+        <section class="book-list" id="books-container">
+            <!-- JavaScript에서 동적으로 책 추가 -->
+        </section>
+    </main>
+
+    <script src="../scripts/library.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // 사용자의 이름을 가져와서 표시 (예시: 로컬 스토리지에서 불러오기)
+            const username = localStorage.getItem("username") || "사용자";
+            document.getElementById("library-title").textContent = `${username}님의 서재`;
+
+            // 로그아웃 기능
+            const logoutBtn = document.getElementById("logout-btn");
+            if (logoutBtn) {
+                logoutBtn.addEventListener("click", () => {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("username");
+                    window.location.href = "index.html";
+                });
+            }
+        });
+    </script>
+</body>
+</html>
