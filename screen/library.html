@@ -29,30 +29,13 @@
     </header>
 
     <main class="library-container">
-        <h1 id="library-title">000님의 서재</h1>
+        <h1 id="user-library-title">내 서재</h1>  <!-- 닉네임 적용됨 -->
 
-        <section class="book-list" id="books-container">
+        <section class="book-list" id="book-grid">
             <!-- JavaScript에서 동적으로 책 추가 -->
         </section>
     </main>
 
     <script src="../scripts/library.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // 사용자의 이름을 가져와서 표시 (예시: 로컬 스토리지에서 불러오기)
-            const username = localStorage.getItem("username") || "사용자";
-            document.getElementById("library-title").textContent = `${username}님의 서재`;
-
-            // 로그아웃 기능
-            const logoutBtn = document.getElementById("logout-btn");
-            if (logoutBtn) {
-                logoutBtn.addEventListener("click", () => {
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("username");
-                    window.location.href = "index.html";
-                });
-            }
-        });
-    </script>
 </body>
 </html>

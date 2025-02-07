@@ -1,0 +1,44 @@
+.search-container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.book-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.book-item img {
+  width: 100px;
+  height: auto;
+  border-radius: 5px;
+}
+
+.book-info {
+  text-align: center;
+}
+
+.book-info h3 {
+  font-size: 1.1rem;
+  margin: 5px 0;
+}
+
+.book-info a {
+  display: block;
+  margin-top: 5px;
+  color: #007BFF;
+  text-decoration: none;
+}

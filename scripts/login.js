@@ -45,7 +45,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 const result = await response.json();
 
                 if (response.ok) {
-                    alert("로그인 성공!");
+                    // ✅ 로그인 성공 시 사용자 정보 저장
+                    localStorage.setItem("token", result.token);  // JWT 토큰 저장
+                    localStorage.setItem("username", result.username); // ✅ 사용자 이름 저장
+
+                    alert(`${result.username}님, 로그인 성공!`);
                     window.location.href = "main.html"; // 로그인 후 메인 페이지로 이동
                 } else {
                     alert(result.error || "로그인 실패. 다시 시도해주세요.");
@@ -56,45 +60,4 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-    const usernameInput = document.getElementById("username");
-    const saveButton = document.getElementById("save-username");
-
-    // ✅ 기존 사용자 이름 표시
-    usernameInput.value = localStorage.getItem("username") || "";
-
-    saveButton.addEventListener("click", async () => {
-        const newUsername = usernameInput.value.trim();
-
-        if (!newUsername) {
-            alert("이름을 입력하세요.");
-            return;
-        }
-
-        try {
-            const response = await fetch("/users/me", {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`
-                },
-                body: JSON.stringify({ username: newUsername })
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                // ✅ 서버 업데이트 성공 → `localStorage` 업데이트
-                localStorage.setItem("username", newUsername);
-                alert("이름이 변경되었습니다!");
-            } else {
-                alert(data.error || "이름 변경에 실패했습니다.");
-            }
-        } catch (error) {
-            console.error("이름 변경 실패:", error);
-            alert("서버 오류가 발생했습니다.");
-        }
-    });
 });

@@ -118,3 +118,20 @@ input[type="password"] {
     padding: 1.5rem;
   }
 }
+
+/* 네비게이션 바 (index.html에서만 적용) */
+.index-page .navbar {
+  justify-content: flex-start;
+  padding-left: 5vw; /* 왼쪽에서 5vw만큼 여백 추가 */
+}
+
+/* 네비게이션 링크 (내 서재, 목표 및 통계) */
+.index-page .nav-links {
+  margin-left: 3vw; /* 기존보다 조금만 오른쪽으로 */
+}
+
+/* 사용자 버튼 (로그인 버튼) */
+.index-page .user-actions {
+  margin-left: auto; /* 로그인 버튼은 오른쪽 끝으로 */
+}
+

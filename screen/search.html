@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>책 검색 결과 - 다독다독</title>
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/search.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo">
+                <img src="../assets/images/logo.png" alt="다독다독 로고">
+                <span class="logo-text"><span class="first">다독</span><span class="second">다독</span></span>
+            </a>
+            <input type="text" class="search-bar" placeholder="검색">
+        </nav>
+    </header>
+
+    <main class="search-container">
+        <h1 id="search-title">검색 결과</h1>
+        <div id="search-results" class="results-grid"></div>
+    </main>
+
+    <script src="../scripts/common.js"></script>
+    <script src="../scripts/search.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아이디 / 비밀번호 찾기 - 다독다독</title>
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/find-account.css">
+</head>
+<body class="index-page">
+
+    <header>
+        <nav class="navbar">
+            <a href="main.html" class="logo">
+                <img src="../assets/images/logo.png" alt="다독다독 로고">
+                <span class="logo-text"><span class="first">다독</span><span class="second">다독</span></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="library.html">내 서재</a></li>
+                <li><a href="goals.html">목표 및 통계</a></li>
+            </ul>
+            <input type="text" class="search-bar" placeholder="검색">
+            <div class="user-actions">
+                <a href="index.html" class="login-button" id="login-btn">로그인</a>
+                <a href="mypage.html" class="profile-button" id="profile-btn" style="display: none;">내 정보</a>
+                <button class="logout-button" id="logout-btn" style="display: none;">로그아웃</button>
+            </div>
+        </nav>
+    </header>
+    
+
+    <main class="find-account-container">
+        <h1>아이디 / 비밀번호 찾기</h1>
+
+        <!-- 아이디 찾기 -->
+        <section class="find-section">
+            <h2>아이디 찾기</h2>
+            <label for="find-id-email">가입한 이메일 입력</label>
+            <input type="email" id="find-id-email" placeholder="example@example.com" required>
+            <button id="find-id-btn" class="find-btn">아이디 찾기</button>
+            <p id="id-result" class="result-message"></p>
+        </section>
+
+        <hr>
+
+        <!-- 비밀번호 찾기 -->
+        <section class="find-section">
+            <h2>비밀번호 찾기</h2>
+            <label for="find-pw-email">가입한 이메일 입력</label>
+            <input type="email" id="find-pw-email" placeholder="example@example.com" required>
+            <button id="find-pw-btn" class="find-btn">비밀번호 재설정 링크 받기</button>
+            <p id="pw-result" class="result-message"></p>
+        </section>
+    </main>
+
+    <script src="../scripts/find-account.js"></script>
+</body>
+</html>

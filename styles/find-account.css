@@ -1,0 +1,70 @@
+/* 전체 컨테이너 */
+.find-account-container {
+  width: 100%;
+  max-width: 450px;
+  margin: 8% auto 0;
+  text-align: center;
+  background: white;
+  padding: 2em;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 제목 스타일 */
+.find-account-container h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+/* 입력 및 버튼 스타일 */
+.find-section {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.find-section h2 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.find-section label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+}
+
+.find-section input {
+  width: 100%;
+  padding: 0.8em;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1em;
+  box-sizing: border-box;
+  background-color: #f8f8f8;
+  margin-bottom: 0.7rem;
+}
+
+.find-btn {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  background-color: #FFC200;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+.find-btn:hover {
+  background-color: #E0A800;
+}
+
+/* 결과 메시지 */
+.result-message {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  color: #333;
+}

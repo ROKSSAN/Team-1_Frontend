@@ -11,6 +11,15 @@ body {
 
 /* 네비게이션 바 */
 .navbar {
+  /* 기본적으로 숨김 */
+.logged-in-nav {
+  display: none;
+}
+
+.logged-out-nav {
+  display: none;
+}
+
   display: flex;
   justify-content: space-between;
   align-items: center;

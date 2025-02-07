@@ -1,20 +1,22 @@
-/* 전체 레이아웃 */
 .mypage-container {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  width: 80%;
-  margin: 2rem auto;
+  padding: 2rem 5%;
   gap: 2rem;
 }
 
-/* 내 정보 */
+/* 내 정보 카드 */
 .user-info {
   flex: 1;
+  max-width: 400px;
   background: white;
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile {
   text-align: center;
 }
 
@@ -22,60 +24,106 @@
   position: relative;
   width: 100px;
   height: 100px;
-  margin: 0 auto 1rem;
+  margin: 0 auto;
 }
 
 .profile-picture img {
   width: 100%;
   border-radius: 50%;
-  object-fit: cover;
+  border: 2px solid #ddd;
 }
 
 .edit-icon {
   position: absolute;
-  bottom: 5px;
   right: 5px;
+  bottom: 5px;
   background: #FFC200;
+  color: white;
   padding: 5px;
   border-radius: 50%;
   cursor: pointer;
 }
 
-/* 목표 설정 */
-.goal-setting {
+.username-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 1rem 0;
+}
+
+.input-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.input-group input {
   flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background: #f8f8f8;
+}
+
+.edit-btn {
+  padding: 0.5rem 1rem;
+  background: #ddd;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.delete-account {
+  display: block;
+  margin: 1rem auto;
+  padding: 0.7rem 2rem;
+  background: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* 오른쪽 영역 */
+.right-container {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* 목표 설정 */
+.goal-setting,
+.comments {
   background: white;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  text-align: center;
 }
 
 .goal-setting input {
-  width: 80%;
-  padding: 0.5rem;
+  width: 100%;
+  padding: 0.7rem;
   margin-top: 0.5rem;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
 
 .set-goal-btn {
-  margin-top: 1rem;
-  padding: 0.7rem 2rem;
+  display: block;
+  width: 100%;
+  padding: 0.8rem;
   background: #FFC200;
+  color: white;
+  font-size: 1rem;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
-  font-weight: bold;
+  margin-top: 1rem;
+  border-radius: 5px;
 }
 
-/* 작성 댓글 */
+/* 댓글 목록 */
 .comments {
-  flex: 1;
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   max-height: 300px;
   overflow-y: auto;
 }
@@ -83,22 +131,10 @@
 #comment-list {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 #comment-list li {
-  padding: 0.8rem;
+  padding: 0.7rem;
   border-bottom: 1px solid #ddd;
-  font-size: 0.9rem;
-}
-
-#comment-list li:last-child {
-  border-bottom: none;
-}
-
-/* 반응형 스타일 */
-@media (max-width: 1024px) {
-  .mypage-container {
-      flex-direction: column;
-      align-items: center;
-  }
 }
