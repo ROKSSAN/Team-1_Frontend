@@ -1,0 +1,99 @@
+
+/* 전체 화면 설정 */
+body {
+  font-family: 'Pretendard', sans-serif;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* 회원가입 컨테이너 */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 100px);
+}
+
+/* 회원가입 박스 */
+.register-box {
+  background: #fff;
+  padding: 30px;
+  width: 350px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* 제목 */
+.register-box h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* 입력 그룹 */
+.input-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* 버튼 스타일 */
+.register-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background: #ffcc00;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.register-btn:hover {
+  background: #e6b800;
+}
+
+/* 로그인으로 이동 링크 */
+.login-redirect {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.login-redirect a {
+  color: #007BFF;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-redirect a:hover {
+  text-decoration: underline;
+}
+
+/* 푸터 */
+footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+}
