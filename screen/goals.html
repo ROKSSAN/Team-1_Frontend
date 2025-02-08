@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>다독다독 - 목표 및 통계</title>
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- ✅ Chart.js 추가 -->
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+        body {
+            font-family: "Pretendard", sans-serif;
+        }
+
+        .goal-dashboard {
+            width: 75%;
+            margin: 40px auto;
+        }
+
+        /* 🔹 "목표 및 통계" 타이틀 */
+        .goal-title {
+            font-size: 2rem;
+            font-weight: bold;
+            position: absolute;
+            left: 25%;
+            top: 100px; /* 네비게이션 아래 */
+        }
+
+        /* 🔹 그래프 컨테이너 */
+        .charts-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 100px;
+        }
+
+        .chart-box {
+            width: 45%;
+            text-align: center;
+        }
+
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .goal-settings {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .goal-settings input {
+            width: 100px;
+            padding: 8px;
+            font-size: 1rem;
+            text-align: center;
+            margin-right: 10px;
+        }
+
+        .goal-settings button {
+            padding: 8px 12px;
+            font-size: 1rem;
+            background-color: #6366f1;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .goal-settings button:hover {
+            background-color: #4f46e5;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="main.html" class="logo">
+                <img src="../assets/images/logo.png" alt="다독다독 로고">
+                <span class="logo-text"><span class="first">다독</span><span class="second">다독</span></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="library.html">내 서재</a></li>
+                <li><a href="goals.html" class="active">목표 및 통계</a></li>
+            </ul>
+            <input type="text" class="search-bar" placeholder="검색">
+            <div class="user-actions">
+                <a href="index.html" class="login-button" id="login-btn">로그인</a>
+                <a href="mypage.html" class="profile-button" id="profile-btn" style="display: none;">내 정보</a>
+                <button class="logout-button" id="logout-btn" style="display: none;">로그아웃</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="goal-dashboard">
+        <h1 class="goal-title">목표 및 통계</h1>
+
+        <div class="goal-settings">
+            <p>올해 목표: <strong id="goal-target">-</strong></p>
+            <p>현재 읽은 책: <strong id="goal-progress">-</strong></p>
+            <input type="number" id="goal-input" placeholder="올해 목표 권 수">
+            <button class="set-goal-btn">목표 설정</button>
+        </div>
+
+        <div class="charts-container">
+            <!-- 🎯 목표 달성률 차트 -->
+            <div class="chart-box">
+                <h2 class="chart-title" id="daily-progress-title">오늘부터 하루에 n권씩 기록하면 목표달성!</h2>
+                <canvas id="goalChart"></canvas>
+            </div>
+
+            <!-- 📊 월별 독서량 차트 -->
+            <div class="chart-box">
+                <h2 class="chart-title" id="monthly-progress-title">n월부터 n+2월의 기록 현황</h2>
+                <canvas id="monthlyChart"></canvas>
+            </div>
+        </div>
+    </main>
+
+    <script src="../scripts/auth.js"></script>
+    <script src="../scripts/common.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const token = localStorage.getItem("token");
+
+            if (!token) {
+                document.getElementById("goal-target").textContent = "-";
+                document.getElementById("goal-progress").textContent = "-";
+                return;
+            }
+
+            try {
+                // 🎯 목표 진행률 가져오기
+                const response = await fetch("http://127.0.0.1:8000/api/goal/progress/", {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+
+                if (!response.ok) throw new Error("목표 데이터를 가져오는 데 실패했습니다.");
+                const data = await response.json();
+                const goal = data.goal_books || 10;
+                const progress = data.read_books || 0;
+
+                document.getElementById("goal-target").textContent = `${goal}권`;
+                document.getElementById("goal-progress").textContent = `${progress}권`;
+
+                // 동적으로 그래프 제목 업데이트
+                document.getElementById("daily-progress-title").textContent = `오늘부터 하루에 ${(goal - progress)}권씩 기록하면 목표달성!`;
+
+                const ctx1 = document.getElementById("goalChart").getContext("2d");
+                new Chart(ctx1, {
+                    type: "bar",
+                    data: {
+                        labels: ["올해 목표 권 수", "현재 읽은 권 수"],
+                        datasets: [{
+                            label: "독서 목표 진행률",
+                            data: [goal, progress],
+                            backgroundColor: ["#6366f1", "#ef4444"]
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true, max: goal }
+                        }
+                    }
+                });
+
+                // 📊 월별 독서 통계 가져오기
+                const monthlyResponse = await fetch("http://127.0.0.1:8000/api/goal/monthly-progress/", {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+
+                if (!monthlyResponse.ok) throw new Error("월별 독서 데이터를 가져오는 데 실패했습니다.");
+                const monthlyData = await monthlyResponse.json();
+
+                const months = Object.keys(monthlyData.monthly_reading);
+                const values = Object.values(monthlyData.monthly_reading);
+
+                // 동적으로 그래프 제목 업데이트
+                document.getElementById("monthly-progress-title").textContent = `${months[0]}월부터 ${months[2]}월의 기록 현황`;
+
+                const ctx2 = document.getElementById("monthlyChart").getContext("2d");
+                new Chart(ctx2, {
+                    type: "bar",
+                    data: {
+                        labels: months,
+                        datasets: [{
+                            label: "월별 독서량",
+                            data: values,
+                            backgroundColor: ["#93c5fd", "#818cf8", "#f87171"]
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true, max: Math.max(...values) + 2 }
+                        }
+                    }
+                });
+
+            } catch (error) {
+                console.error("목표 데이터 로드 오류:", error);
+            }
+        });
+    </script>
+</body>
+</html>

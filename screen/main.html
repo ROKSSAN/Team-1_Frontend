@@ -6,6 +6,7 @@
     <title>다독다독 - 홈</title>
     <link rel="stylesheet" href="../styles/global.css">
     <link rel="stylesheet" href="../styles/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- ✅ Chart.js 추가 -->
 </head>
 <body>
     <header>
@@ -26,15 +27,14 @@
             </div>
         </nav>
     </header>
-    
-    
+
     <!-- 배너 섹션 -->
     <section class="main-banner">
         <div class="banner-text">
             독서를 쉽게 기록하고, <br>다른 사람들과 의견을 나눠보세요.
         </div>
     </section>
-    
+
     <!-- 대시보드 -->
     <main class="dashboard">
         <!-- 최근 도서 -->
@@ -49,21 +49,21 @@
                 <div class="book-card">동물농장</div>
             </div>
         </div>
-        
+
         <!-- 내 목표 -->
         <div class="reading-goals">
             <h2>🎯 내 목표</h2>
-            <p>올해 목표: <strong id="goal-target">-</strong></p>
-            <p>현재 읽은 책: <strong id="goal-progress">-</strong></p>
-            <div class="goal-graph">
-                <img src="../assets/images/goal-chart.png" alt="독서 목표 그래프">
+            <div class="goal-header">
+                <p>올해 목표: <strong id="goal-target">-</strong></p>
+                <p>현재 읽은 책: <strong id="goal-progress">-</strong></p>
+                <button class="goal-button" onclick="location.href='goals.html'">➡️</button> <!-- ✅ 목표 페이지 이동 버튼 -->
             </div>
+            <canvas id="goalChart"></canvas> <!-- ✅ 목표 그래프 추가 -->
         </div>
     </main>
-    
+
     <script src="../scripts/main.js"></script>
     <script src="../scripts/auth.js"></script>
     <script src="../scripts/common.js"></script>
-
 </body>
 </html>

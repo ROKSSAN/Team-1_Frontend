@@ -126,3 +126,36 @@ body {
     grid-template-columns: repeat(1, 1fr);
   }
 }
+.reading-goals {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+}
+
+.goal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.goal-button {
+  background: gold;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.goal-button:hover {
+  background: darkgoldenrod;
+}
+
+canvas {
+  max-width: 100%;
+  height: auto;
+  margin-top: 20px;
+}

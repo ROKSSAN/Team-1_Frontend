@@ -6,13 +6,36 @@ document.addEventListener("DOMContentLoaded", () => {
     const goalInput = document.getElementById("goal-input");
     const setGoalBtn = document.querySelector(".set-goal-btn");
     const commentList = document.getElementById("comment-list");
-    
-    // ✅ Load user data from localStorage
-    usernameDisplay.textContent = localStorage.getItem("username") || "닉네임";
-    userEmail.value = localStorage.getItem("user_email") || "hicc@example.com";
-    goalInput.value = localStorage.getItem("readingGoal") || "";
 
-    // ✅ Update nickname
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        window.location.href = "login.html"; // 로그인 안 했으면 이동
+        return;
+    }
+
+    // ✅ 사용자 정보 불러오기
+    async function loadUserInfo() {
+        try {
+            const response = await fetch("http://127.0.0.1:8000/api/user/me/", {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+
+            if (!response.ok) throw new Error("사용자 정보 불러오기 실패");
+            
+            const user = await response.json();
+            usernameDisplay.textContent = user.nickname;
+            userEmail.value = user.email;
+            localStorage.setItem("username", user.nickname);
+            localStorage.setItem("user_email", user.email);
+        } catch (error) {
+            console.error("사용자 정보 오류:", error);
+        }
+    }
+
+    loadUserInfo();
+
+    // ✅ 닉네임 변경
     saveUsernameBtn.addEventListener("click", async () => {
         const newUsername = usernameInput.value.trim();
         if (!newUsername) {
@@ -21,30 +44,27 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            const response = await fetch("/users/update-profile", {
-                method: "PATCH",
+            const response = await fetch("http://127.0.0.1:8000/api/user/update-profile/", {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ username: newUsername })
+                body: JSON.stringify({ nickname: newUsername })
             });
 
-            const data = await response.json();
-            if (response.ok) {
-                localStorage.setItem("username", newUsername);
-                usernameDisplay.textContent = newUsername;
-                alert("닉네임이 변경되었습니다!");
-            } else {
-                alert(data.error || "닉네임 변경 실패");
-            }
+            if (!response.ok) throw new Error("닉네임 변경 실패");
+
+            localStorage.setItem("username", newUsername);
+            usernameDisplay.textContent = newUsername;
+            alert("닉네임이 변경되었습니다!");
         } catch (error) {
             console.error("닉네임 변경 오류:", error);
             alert("서버 오류가 발생했습니다.");
         }
     });
 
-    // ✅ Set reading goal
+    // ✅ 독서 목표 설정
     setGoalBtn.addEventListener("click", async () => {
         const goal = parseInt(goalInput.value);
         if (isNaN(goal) || goal <= 0) {
@@ -53,36 +73,40 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            const response = await fetch("/users/set-goal", {
+            const response = await fetch("http://127.0.0.1:8000/api/goal/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ goal })
+                body: JSON.stringify({ total_books: goal })
             });
 
-            if (response.ok) {
-                localStorage.setItem("readingGoal", goal);
-                alert("목표가 설정되었습니다!");
-            }
+            if (!response.ok) throw new Error("목표 설정 실패");
+
+            localStorage.setItem("readingGoal", goal);
+            alert("목표가 설정되었습니다!");
         } catch (error) {
             console.error("목표 설정 오류:", error);
         }
     });
 
-    // ✅ Load comments with infinite scroll
+    // ✅ 댓글 불러오기 (Infinite Scroll)
     let page = 1;
+    const reviewId = 1; // 예시: 특정 리뷰 ID, 실제로는 동적으로 변경
+
     async function loadComments() {
         try {
-            const response = await fetch(`/users/comments?page=${page}`, {
-                headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
+            const response = await fetch(`http://127.0.0.1:8000/api/review/${reviewId}/comments/list/?page=${page}`, {
+                headers: { "Authorization": `Bearer ${token}` }
             });
-            const data = await response.json();
 
-            if (response.ok && data.comments.length > 0) {
-                commentList.innerHTML += data.comments.map(comment => `
-                    <li>${comment.text} <span>${comment.date}</span></li>
+            if (!response.ok) throw new Error("댓글 불러오기 실패");
+
+            const data = await response.json();
+            if (data.length > 0) {
+                commentList.innerHTML += data.map(comment => `
+                    <li>${comment.content} <span>${comment.created_at}</span></li>
                 `).join("");
                 page++;
             }

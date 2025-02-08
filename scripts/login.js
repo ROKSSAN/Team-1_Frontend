@@ -26,17 +26,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // 입력값이 이메일인지 확인하는 정규식
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            const isEmail = emailPattern.test(identifier);
+            // API 문서에 따라 로그인 요청 URL 설정
+            const loginUrl = "http://127.0.0.1:8000/api/user/login/";
 
             const loginData = {
-                [isEmail ? "email" : "username"]: identifier, // 이메일이면 email 필드, 아니면 username 필드로 전송
-                password
+                username: identifier,  // API 문서 기준으로 key를 username으로 설정
+                password: password
             };
 
             try {
-                const response = await fetch("/users/login/", {
+                const response = await fetch(loginUrl, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(loginData)
@@ -46,11 +45,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (response.ok) {
                     // ✅ 로그인 성공 시 사용자 정보 저장
-                    localStorage.setItem("token", result.token);  // JWT 토큰 저장
-                    localStorage.setItem("username", result.username); // ✅ 사용자 이름 저장
+                    localStorage.setItem("token", result.access_token);  // JWT 토큰 저장
+                    localStorage.setItem("username", result.user.nickname); // ✅ 사용자 닉네임 저장
 
-                    alert(`${result.username}님, 로그인 성공!`);
-                    window.location.href = "main.html"; // 로그인 후 메인 페이지로 이동
+                    alert(`${result.user.nickname}님, 로그인 성공!`);
+                    window.location.href = "welcome.html"; // ✅ 로그인 후 Welcome 페이지로 이동
                 } else {
                     alert(result.error || "로그인 실패. 다시 시도해주세요.");
                 }
