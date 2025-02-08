@@ -34,8 +34,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-    loadUserInfo();
-
     // ✅ 목표 정보 가져오기
     async function loadGoalData() {
         try {
@@ -55,8 +53,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             console.error("목표 데이터를 불러오는 중 오류 발생:", error);
         }
     }
-
-    loadGoalData();
 
     // ✅ 닉네임 변경
     saveUsernameBtn.addEventListener("click", async () => {
@@ -87,7 +83,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    // ✅ 목표 설정 (POST 또는 PUT)
+    // ✅ 목표 설정 및 수정 (POST 또는 PUT)
     setGoalBtn.addEventListener("click", async () => {
         const goal = parseInt(goalInput.value);
         if (isNaN(goal) || goal <= 0) {
@@ -99,7 +95,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             let response;
             if (goalId) {
                 // 기존 목표가 있으면 PUT 요청
-                response = await fetch(`http://127.0.0.1:8000/api/goal/${goalId}/`, {
+                response = await fetch(`http://127.0.0.1:8000/api/goal/goal/${goalId}/`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
@@ -109,7 +105,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
             } else {
                 // 목표가 없으면 POST 요청
-                response = await fetch("http://127.0.0.1:8000/api/goal/", {
+                response = await fetch("http://127.0.0.1:8000/api/goal/goal/", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -152,11 +148,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-    loadComments();
-
     commentList.addEventListener("scroll", () => {
         if (commentList.scrollTop + commentList.clientHeight >= commentList.scrollHeight - 50) {
             loadComments();
         }
     });
+
+    // ✅ 최초 데이터 로드
+    loadUserInfo();
+    loadGoalData();
+    loadComments();
 });

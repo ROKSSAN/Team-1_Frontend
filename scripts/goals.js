@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const goalTarget = document.getElementById("goal-target");
   const goalProgress = document.getElementById("goal-progress");
 
-  let goalId = null;  // 목표 ID 저장 변수
+  let goalId = null; // 목표 ID 저장 변수
 
   if (!token) {
       alert("로그인이 필요합니다.");
