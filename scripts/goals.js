@@ -1,12 +1,9 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const goalInput = document.getElementById("yearly-goal");
-  const saveGoalBtn = document.getElementById("save-goal");
+document.addEventListener("DOMContentLoaded", async () => {
+  const token = localStorage.getItem("token");
   const goalTarget = document.getElementById("goal-target");
   const goalProgress = document.getElementById("goal-progress");
-  const progressBar = document.getElementById("progress-bar");
-  const progressText = document.getElementById("progress-text");
 
-  const token = localStorage.getItem("token");
+  let goalId = null;  // 목표 ID 저장 변수
 
   if (!token) {
       alert("로그인이 필요합니다.");
@@ -14,77 +11,73 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
   }
 
-  // ✅ 서버에서 목표 데이터 가져오기
-  async function loadGoalData() {
-      try {
-          const response = await fetch("http://127.0.0.1:8000/api/goal/progress/", {
-              headers: { "Authorization": `Bearer ${token}` }
-          });
+  try {
+      // ✅ 목표 데이터 가져오기
+      const response = await fetch("http://127.0.0.1:8000/api/goal/progress/", {
+          headers: { "Authorization": `Bearer ${token}` }
+      });
 
-          if (!response.ok) throw new Error("서버에서 데이터를 가져오지 못했습니다.");
+      if (!response.ok) throw new Error("목표 데이터를 가져오는 데 실패했습니다.");
+      const data = await response.json();
 
-          const data = await response.json();
+      if (data.goal_books) {
+          goalId = data.goal_id; // 기존 목표 ID 저장
+          goalTarget.textContent = `${data.goal_books} 권`;
+      }
 
-          if (data.goal_books) {
-              localStorage.setItem("goal", data.goal_books);
-              goalTarget.textContent = `${data.goal_books} 권`;
-              progressBar.max = data.goal_books;
+      if (data.read_books) {
+          goalProgress.textContent = `${data.read_books} 권`;
+      }
+
+      // 📊 목표 달성률 차트
+      const ctx1 = document.getElementById("goalChart").getContext("2d");
+      new Chart(ctx1, {
+          type: "bar",
+          data: {
+              labels: ["올해 목표 권 수", "현재 읽은 권 수"],
+              datasets: [{
+                  label: "독서 목표 진행률",
+                  data: [data.goal_books || 10, data.read_books || 0],
+                  backgroundColor: ["#6366f1", "#ef4444"]
+              }]
+          },
+          options: {
+              scales: {
+                  y: { beginAtZero: true, max: data.goal_books || 10 }
+              }
           }
+      });
 
-          if (data.read_books) {
-              localStorage.setItem("progress", data.read_books);
-              goalProgress.textContent = `${data.read_books} 권`;
-              progressBar.value = data.read_books;
-              updateProgressText();
+      // 📊 월별 독서량 차트
+      const monthlyResponse = await fetch("http://127.0.0.1:8000/api/goal/monthly-progress/", {
+          headers: { "Authorization": `Bearer ${token}` }
+      });
+
+      if (!monthlyResponse.ok) throw new Error("월별 독서 데이터를 가져오는 데 실패했습니다.");
+      const monthlyData = await monthlyResponse.json();
+
+      const labels = Array.from({ length: 12 }, (_, i) => `${i + 1}월`);
+      const values = labels.map(month => monthlyData.monthly_reading?.[month] || 0);
+
+      const ctx2 = document.getElementById("monthlyChart").getContext("2d");
+      new Chart(ctx2, {
+          type: "bar",
+          data: {
+              labels: labels,
+              datasets: [{
+                  label: "월별 독서량",
+                  data: values,
+                  backgroundColor: "#4f46e5"
+              }]
+          },
+          options: {
+              scales: {
+                  y: { beginAtZero: true, max: Math.max(...values) + 2 }
+              }
           }
-      } catch (error) {
-          console.error("목표 데이터를 불러오는 중 오류 발생:", error);
-      }
+      });
+
+  } catch (error) {
+      console.error("목표 데이터 로드 오류:", error);
   }
-
-  // ✅ 목표 저장 버튼 클릭 시
-  saveGoalBtn.addEventListener("click", async () => {
-      const newGoal = parseInt(goalInput.value.trim(), 10);
-
-      if (!newGoal || newGoal < 1) {
-          alert("올바른 독서 목표 수를 입력하세요.");
-          return;
-      }
-
-      try {
-          const response = await fetch("http://127.0.0.1:8000/api/goal/", {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json",
-                  "Authorization": `Bearer ${token}`
-              },
-              body: JSON.stringify({ total_books: newGoal })
-          });
-
-          if (!response.ok) throw new Error("목표 설정 실패");
-
-          const data = await response.json();
-
-          // ✅ 서버에 저장 성공 → LocalStorage 갱신
-          localStorage.setItem("goal", newGoal);
-          goalTarget.textContent = `${newGoal} 권`;
-          progressBar.max = newGoal;
-          updateProgressText();
-          alert("목표가 저장되었습니다!");
-      } catch (error) {
-          console.error("목표 저장 오류:", error);
-          alert("서버 오류가 발생했습니다.");
-      }
-  });
-
-  // ✅ 목표 달성률 업데이트
-  function updateProgressText() {
-      const progress = parseInt(localStorage.getItem("progress") || "0", 10);
-      const goal = parseInt(localStorage.getItem("goal") || "1", 10);
-      const percentage = Math.round((progress / goal) * 100);
-      progressText.textContent = `${percentage}% 달성`;
-  }
-
-  // ✅ 페이지 로드 시 목표 데이터 불러오기
-  loadGoalData();
 });

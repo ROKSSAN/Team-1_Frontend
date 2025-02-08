@@ -6,7 +6,7 @@
     <title>다독다독 - 목표 및 통계</title>
     <link rel="stylesheet" href="../styles/global.css">
     <link rel="stylesheet" href="../styles/main.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- ✅ Chart.js 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
@@ -25,7 +25,7 @@
             font-weight: bold;
             position: absolute;
             left: 25%;
-            top: 100px; /* 네비게이션 아래 */
+            top: 100px;
         }
 
         /* 🔹 그래프 컨테이너 */
@@ -46,33 +46,6 @@
             font-weight: 500;
             margin-bottom: 10px;
             color: #555;
-        }
-
-        .goal-settings {
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        .goal-settings input {
-            width: 100px;
-            padding: 8px;
-            font-size: 1rem;
-            text-align: center;
-            margin-right: 10px;
-        }
-
-        .goal-settings button {
-            padding: 8px 12px;
-            font-size: 1rem;
-            background-color: #6366f1;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .goal-settings button:hover {
-            background-color: #4f46e5;
         }
     </style>
 </head>
@@ -102,8 +75,6 @@
         <div class="goal-settings">
             <p>올해 목표: <strong id="goal-target">-</strong></p>
             <p>현재 읽은 책: <strong id="goal-progress">-</strong></p>
-            <input type="number" id="goal-input" placeholder="올해 목표 권 수">
-            <button class="set-goal-btn">목표 설정</button>
         </div>
 
         <div class="charts-container">
@@ -123,84 +94,6 @@
 
     <script src="../scripts/auth.js"></script>
     <script src="../scripts/common.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", async () => {
-            const token = localStorage.getItem("token");
-
-            if (!token) {
-                document.getElementById("goal-target").textContent = "-";
-                document.getElementById("goal-progress").textContent = "-";
-                return;
-            }
-
-            try {
-                // 🎯 목표 진행률 가져오기
-                const response = await fetch("http://127.0.0.1:8000/api/goal/progress/", {
-                    headers: { "Authorization": `Bearer ${token}` }
-                });
-
-                if (!response.ok) throw new Error("목표 데이터를 가져오는 데 실패했습니다.");
-                const data = await response.json();
-                const goal = data.goal_books || 10;
-                const progress = data.read_books || 0;
-
-                document.getElementById("goal-target").textContent = `${goal}권`;
-                document.getElementById("goal-progress").textContent = `${progress}권`;
-
-                // 📊 목표 달성률 차트
-                const ctx1 = document.getElementById("goalChart").getContext("2d");
-                new Chart(ctx1, {
-                    type: "bar",
-                    data: {
-                        labels: ["올해 목표 권 수", "현재 읽은 권 수"],
-                        datasets: [{
-                            label: "독서 목표 진행률",
-                            data: [goal, progress],
-                            backgroundColor: ["#6366f1", "#ef4444"]
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: { beginAtZero: true, max: goal }
-                        }
-                    }
-                });
-
-                // 📊 월별 독서량 (1월~12월) 가져오기
-                const monthlyResponse = await fetch("http://127.0.0.1:8000/api/goal/monthly-progress/", {
-                    headers: { "Authorization": `Bearer ${token}` }
-                });
-
-                if (!monthlyResponse.ok) throw new Error("월별 독서 데이터를 가져오는 데 실패했습니다.");
-                const monthlyData = await monthlyResponse.json();
-
-                // 📌 1월~12월까지의 데이터 구성
-                const labels = Array.from({ length: 12 }, (_, i) => `${i + 1}월`);
-                const monthlyReading = monthlyData.monthly_reading || {};
-                const values = labels.map(month => monthlyReading[month] || 0);
-
-                const ctx2 = document.getElementById("monthlyChart").getContext("2d");
-                new Chart(ctx2, {
-                    type: "bar",
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: "월별 독서량",
-                            data: values,
-                            backgroundColor: "#4f46e5"
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: { beginAtZero: true, max: Math.max(...values) + 2 }
-                        }
-                    }
-                });
-
-            } catch (error) {
-                console.error("목표 데이터 로드 오류:", error);
-            }
-        });
-    </script>
+    <script src="../scripts/goals.js"></script>
 </body>
 </html>
