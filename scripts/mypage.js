@@ -34,10 +34,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-    // ✅ 목표 정보 가져오기
+    // ✅ 목표 정보 가져오기 (목표 ID 조회)
     async function loadGoalData() {
         try {
-            const response = await fetch("http://127.0.0.1:8000/api/goal/progress/", {
+            const response = await fetch("http://127.0.0.1:8000/api/goal/goal/", {
                 headers: { "Authorization": `Bearer ${token}` }
             });
 
@@ -45,9 +45,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             const data = await response.json();
 
-            if (data.goal_books) {
-                goalId = data.goal_id; // 기존 목표 ID 저장
-                goalInput.value = data.goal_books;
+            if (data.length > 0) {
+                goalId = data[0].id; // 첫 번째 목표 ID 가져오기
+                goalInput.value = data[0].total_books;
             }
         } catch (error) {
             console.error("목표 데이터를 불러오는 중 오류 발생:", error);
@@ -159,4 +159,3 @@ document.addEventListener("DOMContentLoaded", async () => {
     loadGoalData();
     loadComments();
 });
-
