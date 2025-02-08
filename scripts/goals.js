@@ -56,9 +56,18 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!monthlyResponse.ok) throw new Error("월별 독서 데이터를 가져오는 데 실패했습니다.");
       const monthlyData = await monthlyResponse.json();
 
-      const labels = Array.from({ length: 12 }, (_, i) => `${i + 1}월`);
-      const values = labels.map(month => monthlyData.monthly_reading?.[month] || 0);
+      // ✅ 월별 독서량 데이터 가공 (2025-01 → 1월 형식 변환)
+      const monthlyReading = monthlyData.monthly_reading || {};
+      const labels = [];
+      const values = [];
 
+      Object.entries(monthlyReading).forEach(([key, value]) => {
+          const month = key.split("-")[1].replace(/^0/, ""); // "2025-01" → "1"
+          labels.push(`${month}월`);
+          values.push(value);
+      });
+
+      // 📊 월별 독서량 차트
       const ctx2 = document.getElementById("monthlyChart").getContext("2d");
       new Chart(ctx2, {
           type: "bar",
