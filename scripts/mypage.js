@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-        window.location.href = "login.html"; // 로그인 안 했으면 이동
+        window.location.href = "index.html"; // 로그인 안 했으면 이동
         return;
     }
 

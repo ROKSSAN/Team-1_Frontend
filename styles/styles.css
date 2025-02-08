@@ -59,36 +59,3 @@
   margin-top: 1em;
   font-size: 0.9em;
 }
-
-/* 로그인 성공 페이지 스타일 */
-.welcome-container {
-  text-align: center;
-  margin-top: 5%;
-}
-
-.welcome-logo {
-  width: 150px;
-  margin-bottom: 20px;
-}
-
-h1 {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-p {
-  font-size: 1.2rem;
-  color: #444;
-}
-
-.main-page-button {
-  display: inline-block;
-  background-color: #f4c542;
-  color: white;
-  font-size: 1.1rem;
-  padding: 10px 20px;
-  margin-top: 20px;
-  border-radius: 5px;
-  text-decoration: none;
-}

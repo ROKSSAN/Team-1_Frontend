@@ -47,8 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     // ✅ 로그인 성공 시 사용자 정보 저장
                     localStorage.setItem("token", result.access_token);  // JWT 토큰 저장
                     localStorage.setItem("username", result.user.nickname); // ✅ 사용자 닉네임 저장
-
-                    alert(`${result.user.nickname}님, 로그인 성공!`);
                     window.location.href = "welcome.html"; // ✅ 로그인 후 Welcome 페이지로 이동
                 } else {
                     alert(result.error || "로그인 실패. 다시 시도해주세요.");

@@ -4,40 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인 성공 - 다독다독</title>
-    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="../styles/global.css">  <!-- 기존 스타일 유지 -->
+    <link rel="stylesheet" href="../styles/welcome.css">  <!-- 새롭게 추가된 스타일 -->
 </head>
 <body>
 
-    <!-- 네비게이션 바 -->
-    <header>
-        <nav class="navbar">
-            <a href="main.html" class="logo">
-                <img src="../assets/images/logo.png" alt="다독다독 로고">
-                <span class="logo-text"><span class="first">다독</span><span class="second">다독</span></span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="library.html">내 서재</a></li>
-                <li><a href="goals.html">목표 및 통계</a></li>
-            </ul>
-            <input type="text" class="search-bar" placeholder="검색">
-            <div class="user-actions">
-                <a href="index.html" class="login-button" id="login-btn">로그인</a>
-                <a href="mypage.html" class="profile-button" id="profile-btn" style="display: none;">내 정보</a>
-                <button class="logout-button" id="logout-btn" style="display: none;">로그아웃</button>
-            </div>
-        </nav>
-    </header>
-    
-    
-
     <!-- 로그인 성공 메시지 -->
     <main class="welcome-container">
-        <img src="assets/images/logo.png" alt="다독다독 로고" class="welcome-logo">
+        <img src="../assets/images/logo.png" alt="다독다독 로고" class="welcome-logo">
         <h1>환영합니다</h1>
-        <p><span id="user-name">OO</span>님, 로그인에 성공하셨습니다.</p>
-        <a href="index.html" class="main-page-button">메인페이지로</a>
+        <p><span id="user-name">OO</span>님, 로그인이 성공적으로 완료되었습니다.</p>
+        <a href="main.html" class="main-page-button">메인페이지로</a>
     </main>
 
-    <script src="scripts/welcome.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const username = localStorage.getItem("username") || "OO";
+            document.getElementById("user-name").textContent = username;
+
+            const logoutBtn = document.getElementById("logout-btn");
+            logoutBtn.addEventListener("click", () => {
+                localStorage.removeItem("token");
+                localStorage.removeItem("username");
+                window.location.href = "index.html";
+            });
+        });
+    </script>
+
 </body>
 </html>

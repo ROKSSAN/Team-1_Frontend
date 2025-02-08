@@ -109,13 +109,13 @@
         <div class="charts-container">
             <!-- 🎯 목표 달성률 차트 -->
             <div class="chart-box">
-                <h2 class="chart-title" id="daily-progress-title">오늘부터 하루에 n권씩 기록하면 목표달성!</h2>
+                <h2 class="chart-title">올해 목표 달성 현황</h2>
                 <canvas id="goalChart"></canvas>
             </div>
 
-            <!-- 📊 월별 독서량 차트 -->
+            <!-- 📊 1년 전체 월별 독서량 차트 -->
             <div class="chart-box">
-                <h2 class="chart-title" id="monthly-progress-title">n월부터 n+2월의 기록 현황</h2>
+                <h2 class="chart-title">월별 독서량</h2>
                 <canvas id="monthlyChart"></canvas>
             </div>
         </div>
@@ -147,9 +147,7 @@
                 document.getElementById("goal-target").textContent = `${goal}권`;
                 document.getElementById("goal-progress").textContent = `${progress}권`;
 
-                // 동적으로 그래프 제목 업데이트
-                document.getElementById("daily-progress-title").textContent = `오늘부터 하루에 ${(goal - progress)}권씩 기록하면 목표달성!`;
-
+                // 📊 목표 달성률 차트
                 const ctx1 = document.getElementById("goalChart").getContext("2d");
                 new Chart(ctx1, {
                     type: "bar",
@@ -168,7 +166,7 @@
                     }
                 });
 
-                // 📊 월별 독서 통계 가져오기
+                // 📊 월별 독서량 (1월~12월) 가져오기
                 const monthlyResponse = await fetch("http://127.0.0.1:8000/api/goal/monthly-progress/", {
                     headers: { "Authorization": `Bearer ${token}` }
                 });
@@ -176,21 +174,20 @@
                 if (!monthlyResponse.ok) throw new Error("월별 독서 데이터를 가져오는 데 실패했습니다.");
                 const monthlyData = await monthlyResponse.json();
 
-                const months = Object.keys(monthlyData.monthly_reading);
-                const values = Object.values(monthlyData.monthly_reading);
-
-                // 동적으로 그래프 제목 업데이트
-                document.getElementById("monthly-progress-title").textContent = `${months[0]}월부터 ${months[2]}월의 기록 현황`;
+                // 📌 1월~12월까지의 데이터 구성
+                const labels = Array.from({ length: 12 }, (_, i) => `${i + 1}월`);
+                const monthlyReading = monthlyData.monthly_reading || {};
+                const values = labels.map(month => monthlyReading[month] || 0);
 
                 const ctx2 = document.getElementById("monthlyChart").getContext("2d");
                 new Chart(ctx2, {
                     type: "bar",
                     data: {
-                        labels: months,
+                        labels: labels,
                         datasets: [{
                             label: "월별 독서량",
                             data: values,
-                            backgroundColor: ["#93c5fd", "#818cf8", "#f87171"]
+                            backgroundColor: "#4f46e5"
                         }]
                     },
                     options: {

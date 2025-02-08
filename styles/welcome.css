@@ -1,0 +1,73 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+body {
+    font-family: 'Pretendard', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+/* ✅ 중앙 컨테이너 */
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: calc(100vh - 80px); /* 네비게이션 바 제외 */
+}
+
+/* ✅ 로고 이미지 */
+.welcome-logo {
+    width: 300px;
+    margin-bottom: 20px;
+}
+
+/* ✅ 환영 메시지 스타일 */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 1.2rem;
+    color: #444;
+    margin-bottom: 30px;
+}
+
+/* ✅ 메인 페이지로 이동 버튼 */
+.main-page-button {
+    padding: 12px 24px;
+    background-color: #facc15;
+    color: #000;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.main-page-button:hover {
+    background-color: #eab308;
+}
+/* 네비게이션 바 */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 1vh 5%;
+  border-bottom: 1px solid #ddd;
+  height: 8vh;
+  min-height: 60px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 10px 10px;
+  position: relative;
+  z-index: 10;
+}

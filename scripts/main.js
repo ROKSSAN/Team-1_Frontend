@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             localStorage.removeItem("token"); // JWT 토큰 삭제
             localStorage.removeItem("username"); // 사용자 정보 삭제
             localStorage.removeItem("nickname");
-            window.location.href = "login.html"; // 로그인 페이지로 이동
+            window.location.href = "index.html"; // 로그인 페이지로 이동
         });
     }
 });
