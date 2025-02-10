@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../styles/mypage.css">
 </head>
 <body>
-    <header>
+<header>
     <nav class="navbar">
         <a href="main.html" class="logo">
             <img src="../assets/images/logo.png" alt="다독다독 로고">
@@ -27,46 +27,41 @@
     </nav>
 </header>
 
-    <main class="mypage-container">
-        <!-- 내 정보 -->
-        <section class="user-info">
-            <h2 class="section-title">내 정보</h2>
-            <div class="profile">
-                <div class="profile-picture">
-                    <img src="../assets/images/default-profile.png" alt="프로필 사진">
-                    <label class="edit-icon">✏️</label>
-                </div>
-                <p id="username-display" class="username-text">닉네임</p>
-                <div class="input-group">
-                    <label>아이디</label>
-                    <input type="text" id="user-email" disabled>
-                    <button class="edit-btn">수정</button>
-                </div>
-                <div class="input-group">
-                    <label>비밀번호</label>
-                    <input type="password" id="user-password" value="********" disabled>
-                    <button class="edit-btn">수정</button>
+<main class="mypage-container">
+    <!-- 내 정보 -->
+    <section class="user-info">
+        <h2 class="section-title">내 정보</h2>
+        <div class="profile">
+            <div class="profile-picture">
+                <img src="../assets/images/default-profile.png" alt="프로필 사진">
+                <label class="edit-icon">✏️</label>
             </div>
+            <p id="username-display" class="username-text">닉네임</p>
+            <div class="input-group">
+                <label>아이디</label>
+                <input type="text" id="user-email" disabled>
+            </div>
+        </div>
+    </section>
+
+    <div class="right-container">
+        <!-- 목표 설정 -->
+        <section class="goal-setting">
+            <h2 class="section-title">목표 설정</h2>
+            <label for="goal-input">올해 목표 독서량:</label>
+            <input type="number" id="goal-input" placeholder="책 권 수 입력">
+            <button class="set-goal-btn">저장</button>
         </section>
 
-        <div class="right-container">
-            <!-- 목표 설정 -->
-            <section class="goal-setting">
-                <h2 class="section-title">목표 설정</h2>
-                <label for="goal-input">올해 목표 독서량:</label>
-                <input type="number" id="goal-input" placeholder="책 권 수 입력">
-                <button class="set-goal-btn">저장</button>
-            </section>
+        <!-- 작성 댓글 -->
+        <section class="comments">
+            <h2 class="section-title">작성 댓글</h2>
+            <ul id="comment-list"></ul>
+        </section>
+    </div>
+</main>
 
-            <!-- 작성 댓글 -->
-            <section class="comments">
-                <h2 class="section-title">작성 댓글</h2>
-                <ul id="comment-list"></ul>
-            </section>
-        </div>
-    </main>
-
-    <script src="../scripts/mypage.js"></script>
-    <script src="../scripts/common.js"></script>
+<script src="../scripts/mypage.js"></script>
+<script src="../scripts/common.js"></script>
 </body>
 </html>

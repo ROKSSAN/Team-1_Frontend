@@ -4,28 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입 - 다독다독</title>
-    <link rel="stylesheet" href="styles/global.css">
-    <link rel="stylesheet" href="styles/register.css">
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/register.css">
 </head>
 <body>
-
-<header>
-    <nav class="navbar">
-        <a href="main.html" class="logo">
-            <img src="assets/images/logo.png" alt="다독다독 로고">
-            <span class="logo-text">
-                <span class="first">다독</span><span class="second">다독</span>
-            </span>
-        </a>
-        <ul class="nav-links">
-            <li><a href="library.html">내 서재</a></li>
-            <li><a href="goals.html">목표 및 통계</a></li>
-        </ul>
-        <div class="user-actions">
-            <button class="login-button" id="login-btn">로그인</button>
-        </div>
-    </nav>
-</header>
+  <header>
+      <nav class="navbar">
+          <a href="main.html" class="logo">
+              <img src="../assets/images/logo.png" alt="다독다독 로고">
+              <span class="logo-text"><span class="first">다독</span><span class="second">다독</span></span>
+          </a>
+          <ul class="nav-links">
+              <li><a href="library.html">내 서재</a></li>
+              <li><a href="goals.html">목표 및 통계</a></li>
+          </ul>
+          <input type="text" class="search-bar" placeholder="검색">
+          <div class="user-actions">
+              <a href="index.html" class="login-button" id="login-btn">로그인</a>
+              <a href="mypage.html" class="profile-button" id="profile-btn" style="display: none;">내 정보</a>
+              <button class="logout-button" id="logout-btn" style="display: none;">로그아웃</button>
+          </div>
+      </nav>
+  </header>
 
 <main class="register-container">
     <div class="register-box">
@@ -62,8 +62,7 @@
     <p>&copy; 2025 다독다독</p>
 </footer>
 
-<script src="scripts/register.js"></script>
+<script src="../scripts/register.js"></script>
 <script src="../scripts/common.js"></script>
-
 </body>
 </html>

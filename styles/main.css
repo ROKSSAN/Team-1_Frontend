@@ -81,22 +81,23 @@ body {
 }
 
 /* 책 리스트 */
-.books-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.8rem; /* 기존 간격보다 줄임 */
+.book-card img {
+  width: 80px; /* 이미지 크기 축소 */
+  height: 120px;
+  object-fit: cover;
+  border-radius: 5px;
 }
 
-.book-card {
-  width: 100%;
-  height: 140px; /* 높이도 조금 줄임 */
-  background: #f0f0f0;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
+.book-title {
+  font-size: 14px;
+  font-weight: bold;
   color: #333;
+  margin-top: 5px;
+}
+
+.book-author {
+  font-size: 12px;
+  color: #666;
 }
 
 /* 내 목표 */
@@ -127,35 +128,35 @@ body {
   }
 }
 .reading-goals {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  position: relative;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
 }
 
 .goal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .goal-button {
-  background: gold;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 18px;
+    background: gold;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
 }
 
 .goal-button:hover {
-  background: darkgoldenrod;
+    background: darkgoldenrod;
 }
 
 canvas {
-  max-width: 100%;
-  height: auto;
-  margin-top: 20px;
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
 }

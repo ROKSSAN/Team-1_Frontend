@@ -7,12 +7,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("token");
   const username = localStorage.getItem("username");
 
-  if (!token || !username) {
+  // if (!token || !username) {
       // 로그인하지 않은 경우
-      userLibraryTitle.textContent = "로그인 후 이용해 주세요.";
-      bookGrid.innerHTML = `<p class="login-prompt">📚 내 서재를 보려면 <a href="index.html">로그인</a>하세요.</p>`;
-      return;
-  }
+    //  userLibraryTitle.textContent = "로그인 후 이용해 주세요.";
+    //  bookGrid.innerHTML = `<p class="login-prompt">📚 내 서재를 보려면 <a href="index.html">로그인</a>하세요.</p>`;
+    //  return;
+  //} 
 
   // ✅ 로그인한 경우 사용자 이름 표시
   userLibraryTitle.textContent = `${username}님의 서재`;
