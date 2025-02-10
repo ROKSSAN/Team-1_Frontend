@@ -10,20 +10,25 @@ document.addEventListener("DOMContentLoaded", async () => {
         try {
             const response = await fetch("http://127.0.0.1:8000/api/book/recent-reviews/");
             if (!response.ok) throw new Error("최근 도서를 불러오지 못했습니다.");
-            
+
             const books = await response.json();
             if (books.length === 0) {
                 recentBooksContainer.innerHTML = "<p>최근 리뷰가 달린 도서가 없습니다.</p>";
                 return;
             }
 
-            recentBooksContainer.innerHTML = books.map(book => `
-                <div class="book-card">
-                    <img src="${book.image_url}" alt="${book.title}" class="book-cover">
-                    <p class="book-title">${book.title}</p>
-                    <p class="book-author">${book.author}</p>
-                </div>
-            `).join("");
+            // ✅ 최대 6권만 표시 (3x2 레이아웃)
+            let bookHTML = books.slice(0, 6).map(book => {
+                return `
+                    <div class="book-card" onclick="location.href='book-detail.html?isbn=${book.isbn}'">
+                        <img src="${book.image_url}" alt="${book.title}" class="book-cover">
+                        <p class="book-title">${book.title}</p>
+                        <p class="book-author">${book.author}</p>
+                    </div>
+                `;
+            }).join("");
+
+            recentBooksContainer.innerHTML = bookHTML;
         } catch (error) {
             console.error("최근 도서 불러오기 오류:", error);
             recentBooksContainer.innerHTML = "<p>데이터를 불러오는 중 오류가 발생했습니다.</p>";
@@ -52,9 +57,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             goalTarget.textContent = `${goal}권`;
             goalProgress.textContent = `${progress}권`;
 
-            // ✅ Chart.js로 목표 진행률 그래프 생성
-            const ctx = document.getElementById("goalChart").getContext("2d");
-            new Chart(ctx, {
+            // ✅ 목표 진행률 차트 생성
+            const ctx1 = document.getElementById("goalChart").getContext("2d");
+            new Chart(ctx1, {
                 type: "bar",
                 data: {
                     labels: ["올해 목표 권 수", "현재 읽은 권 수"],
@@ -74,16 +79,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         } catch (error) {
             console.error("목표 데이터 로드 오류:", error);
         }
-    }
-
-    // ✅ 로그아웃 버튼 이벤트 리스너 추가
-    if (logoutBtn) {
-        logoutBtn.addEventListener("click", () => {
-            localStorage.removeItem("token");
-            localStorage.removeItem("username");
-            localStorage.removeItem("nickname");
-            window.location.href = "index.html";
-        });
     }
 
     // ✅ 초기 데이터 로드

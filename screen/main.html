@@ -6,6 +6,7 @@
     <title>다독다독 - 홈</title>
     <link rel="stylesheet" href="../styles/global.css">
     <link rel="stylesheet" href="../styles/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <header>
@@ -27,7 +28,6 @@
         </nav>
     </header>
     
-    
     <!-- 배너 섹션 -->
     <section class="main-banner">
         <div class="banner-text">
@@ -38,17 +38,14 @@
     <!-- 대시보드 -->
     <main class="dashboard">
         <!-- 최근 도서 -->
+        <!-- 최근 도서 -->
         <div class="recent-books">
             <h2>📚 최근 도서</h2>
-            <div class="books-container">
-                <div class="book-card">바깥은 여름</div>
-                <div class="book-card">달과 6펜스</div>
-                <div class="book-card">행릿</div>
-                <div class="book-card">바람과 함께 사라지다</div>
-                <div class="book-card">이방인</div>
-                <div class="book-card">동물농장</div>
+            <div class="books-container" id="recent-books-container">
+                <p>최근 리뷰가 달린 책을 불러오는 중...</p>
             </div>
         </div>
+
         
         <!-- 내 목표 -->
         <div class="reading-goals">
@@ -56,7 +53,10 @@
             <p>올해 목표: <strong id="goal-target">-</strong></p>
             <p>현재 읽은 책: <strong id="goal-progress">-</strong></p>
             <div class="goal-graph">
-                <img src="../assets/images/goal-chart.png" alt="독서 목표 그래프">
+                <canvas id="goalChart"></canvas>
+            </div>
+            <div class="monthly-graph">
+                <canvas id="monthlyChart"></canvas>
             </div>
         </div>
     </main>
@@ -64,6 +64,5 @@
     <script src="../scripts/main.js"></script>
     <script src="../scripts/auth.js"></script>
     <script src="../scripts/common.js"></script>
-
 </body>
 </html>
