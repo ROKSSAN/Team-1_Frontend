@@ -1,0 +1,112 @@
+/* book-detail.css */
+body {
+  font-family: 'Pretendard', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+.book-detail-container {
+  width: 80%;
+  margin: 40px auto;
+}
+
+/* 📌 책 메인 정보 섹션 */
+.book-main-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.book-cover img {
+  width: 180px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.book-info h1 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.book-info p {
+  margin: 5px 0;
+  color: #555;
+}
+
+#book-link {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 8px 12px;
+  background-color: #6366f1;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+#book-link:hover {
+  background-color: #4f46e5;
+}
+
+/* 📌 리뷰 섹션 */
+.reviews-section {
+  margin-top: 40px;
+}
+
+.reviews-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+#reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.review-card {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 📌 추천 도서 */
+.recommendations {
+  margin-top: 40px;
+}
+
+.recommendations h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.recommendation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.recommendation-item {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.recommendation-item img {
+  width: 100%;
+  max-height: 160px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.recommendation-item p {
+  margin-top: 8px;
+  font-size: 0.9rem;
+}

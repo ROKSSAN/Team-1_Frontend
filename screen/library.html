@@ -17,7 +17,7 @@
                 </span>
             </a>
             <ul class="nav-links">
-                <li><a href="library.html">내 서재</a></li>
+                <li><a href="library.html" class="active">내 서재</a></li>
                 <li><a href="goals.html">목표 및 통계</a></li>
             </ul>
             <input type="text" class="search-bar" placeholder="검색">
@@ -31,9 +31,13 @@
     <main class="library-container">
         <h1 id="user-library-title">내 서재</h1>  <!-- 닉네임 적용됨 -->
 
+        <!-- 책 목록 -->
         <section class="book-list" id="book-grid">
             <!-- JavaScript에서 동적으로 책 추가 -->
         </section>
+
+        <!-- 더 이상 책이 없을 때 표시 -->
+        <p id="no-more-books" class="no-books-message" style="display: none;">더 이상 불러올 책이 없습니다.</p>
     </main>
 
     <script src="../scripts/library.js"></script>
