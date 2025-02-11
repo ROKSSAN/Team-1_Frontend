@@ -1,0 +1,75 @@
+/* 리뷰 상세 페이지 스타일 */
+.review-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.review-meta {
+  font-size: 14px;
+  color: gray;
+}
+
+#review-content {
+  margin-top: 20px;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+#review-actions {
+  margin-top: 20px;
+}
+
+#edit-btn, #delete-btn {
+  background: #ff6b6b;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+#edit-btn:hover, #delete-btn:hover {
+  background: #ff4040;
+}
+
+.review-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.review-meta {
+  font-size: 14px;
+  color: #777;
+}
+
+#review-actions {
+  margin-top: 20px;
+}
+
+#edit-btn, #delete-btn {
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+#edit-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+#delete-btn {
+  background-color: #f44336;
+  color: white;
+}
