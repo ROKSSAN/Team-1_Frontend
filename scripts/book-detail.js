@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
   }
 
+  let bookTitleText = ""; // 책 제목 저장 변수
   let bookUrl = `https://search.shopping.naver.com/book/catalog/${isbn}`; // 기본 링크 (네이버 쇼핑)
 
   // ✅ 책 정보 가져오기 (API에서 네이버 책 링크 저장)
@@ -29,6 +30,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           bookTitle.textContent = book.title;
           bookAuthor.textContent = `${book.author} / ${book.translator || "번역 없음"}`;
           bookPublisher.textContent = `${book.publisher} / ${book.published_date}`;
+          
+          bookTitleText = book.title; // 책 제목 저장
 
           // ✅ API에서 받은 네이버 책 링크 저장
           if (book.link) {
@@ -37,12 +40,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
           // ✅ 버튼 표시 (링크 유무와 관계없이 항상 표시)
           bookLink.style.display = "inline-block";
+
+          // ✅ 책 정보를 먼저 불러온 후 추천 도서 API 호출
+          loadRecommendations(bookTitleText);
+
       } catch (error) {
           console.error("책 정보 오류:", error);
       }
   }
 
-  // ✅ 버튼 클릭 시 저장된 네이버 책 링크로 이동 (이중 실행 방지)
+  // ✅ 버튼 클릭 시 저장된 네이버 책 링크로 이동
   bookLink.addEventListener("click", (event) => {
       event.preventDefault(); // <a> 태그 기본 동작 막기
       window.open(bookUrl, "_blank"); // 저장된 링크로 새 탭에서 이동
@@ -71,8 +78,10 @@ document.addEventListener("DOMContentLoaded", async () => {
           const reviews = await response.json();
           reviewsList.innerHTML = reviews.length > 0
               ? reviews.map(review => `
-                  <div class="review-card" data-review-id="${review.id}">
-                      <p>${review.content}</p>
+                  <div class="review-card" data-review-id="${review.review_id}">
+                      <p><strong>${review.user}</strong>: ${review.content}</p>
+                      <p>⭐ ${review.rating} / 5</p>
+                      <p class="review-date">${review.created_at}</p>
                   </div>
               `).join("")
               : "<p>아직 리뷰가 없습니다.</p>";
@@ -94,18 +103,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
   }
 
-  // ✅ 연관 추천 도서 가져오기
-  async function loadRecommendations() {
+  // ✅ 연관 추천 도서 가져오기 (책 제목을 사용)
+  async function loadRecommendations(title) {
       try {
-          const response = await fetch(`http://127.0.0.1:8000/api/recommendation/naver/?query={책제목}${isbn}`);
+          const response = await fetch(`http://127.0.0.1:8000/api/recommendation/naver/?query=${encodeURIComponent(title)}`);
           if (!response.ok) throw new Error("추천 도서를 불러올 수 없습니다.");
 
           const books = await response.json();
           recommendationsList.innerHTML = books.length > 0
               ? books.map(book => `
-                  <div class="recommendation-item" onclick="location.href='book-detail.html?isbn=${book.isbn}'">
-                      <img src="${book.image_url}" alt="${book.title}">
-                      <p>${book.title}</p>
+                  <div class="recommendation-item">
+                      <a href="${book.link}" target="_blank">
+                          <img src="${book.image}" alt="${book.title}">
+                          <p>${book.title}</p>
+                      </a>
                   </div>
               `).join("")
               : "<p>추천할 도서가 없습니다.</p>";
@@ -118,5 +129,4 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ✅ 데이터 불러오기
   loadBookDetails();
   loadReviews();
-  loadRecommendations();
 });

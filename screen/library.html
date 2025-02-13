@@ -8,25 +8,24 @@
     <link rel="stylesheet" href="../styles/library.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-            <a href="main.html" class="logo">
-                <img src="../assets/images/logo.png" alt="다독다독 로고">
-                <span class="logo-text">
-                    <span class="first">다독</span><span class="second">다독</span>
-                </span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="library.html" class="active">내 서재</a></li>
-                <li><a href="goals.html">목표 및 통계</a></li>
-            </ul>
-            <input type="text" class="search-bar" placeholder="검색">
-            <div class="user-actions">
-                <button class="logout-button" id="logout-btn">로그아웃</button>
-                <a href="mypage.html" class="profile-button" id="profile-btn">내 정보</a>
-            </div>
-        </nav>
-    </header>
+  <header>
+      <nav class="navbar">
+          <a href="main.html" class="logo">
+              <img src="../assets/images/logo.png" alt="다독다독 로고">
+              <span class="logo-text"><span class="first">다독</span><span class="second">다독</span></span>
+          </a>
+          <ul class="nav-links">
+              <li><a href="library.html">내 서재</a></li>
+              <li><a href="goals.html" class="active">목표 및 통계</a></li>
+          </ul>
+          <input type="text" class="search-bar" placeholder="검색">
+          <div class="user-actions">
+              <a href="index.html" class="login-button" id="login-btn">로그인</a>
+              <a href="mypage.html" class="profile-button" id="profile-btn" style="display: none;">내 정보</a>
+              <button class="logout-button" id="logout-btn" style="display: none;">로그아웃</button>
+          </div>
+      </nav>
+  </header>
 
     <main class="library-container">
         <h1 id="user-library-title">내 서재</h1>  <!-- 닉네임 적용됨 -->
