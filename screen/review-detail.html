@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>리뷰 상세 - 다독다독</title>
-    <link rel="stylesheet" href="../styles/global.css">
-    <link rel="stylesheet" href="../styles/review-detail.css">
+    <link rel="stylesheet" href="/styles/global.css">
+    <link rel="stylesheet" href="/styles/review-detail.css">
     <link href="https://cdn.jsdelivr.net/npm/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
 </head>
 <body>
   <header>
       <nav class="navbar">
           <a href="main.html" class="logo">
-              <img src="../assets/images/logo.png" alt="다독다독 로고">
+              <img src="/assets/images/logo.png" alt="다독다독 로고">
               <span class="logo-text"><span class="first">다독</span><span class="second">다독</span></span>
           </a>
           <ul class="nav-links">
@@ -27,7 +27,7 @@
           </div>
       </nav>
   </header>
-    
+
     <main class="review-container">
         <aside class="book-info">
             <h2 id="book-title"></h2>
@@ -35,12 +35,12 @@
             <p id="book-author"></p>
             <p id="book-publisher"></p>
         </aside>
-        
+
         <section class="review-content">
             <!-- 작성자 정보 -->
             <div class="review-header">
                 <div class="review-author-container">
-                    <img id="review-author-image" class="profile-icon" src="../assets/images/default_profile.png" alt="작성자 프로필">
+                    <img id="review-author-image" class="profile-icon" src="/assets/images/default_profile.png" alt="작성자 프로필">
                     <span id="review-author"></span>
                 </div>
                 <span id="review-date" class="review-date"></span>
@@ -48,23 +48,20 @@
 
             <div class="review-box">
                 <div class="review-box-top">
-                    <h2 id="box-book-title" class="box-book-title"></h2>
-                    <div class="review-actions" id="review-actions">
-                        <button id="edit-button" style="display: none;">수정</button>
-                        <button id="delete-button" style="display: none;">삭제</button>
+                    <div class="review-rating-container">
+                        <div class="review-rating" id="review-rating"></div>
+                        <span id="rating-value" class="rating-value"></span>
+                        <div class="review-actions">
+                            <button id="edit-button" class="action-button">수정</button>
+                            <button id="delete-button" class="action-button">삭제</button>
+                        </div>
                     </div>
-                </div>
-
-                <!-- 별점 -->
-                <div class="review-rating-container">
-                    <div class="review-rating" id="review-rating"></div>
-                    <span id="rating-value" class="rating-value"></span>
                 </div>
 
                 <p id="review-text"></p>
 
                 <div class="heart-container">
-                    <img id="heart-icon" src="../assets/images/empty_heart.svg" alt="좋아요 버튼" class="heart-icon">
+                    <img id="heart-icon" src="/assets/images/empty_heart.svg" alt="좋아요 버튼" class="heart-icon">
                     <span id="review-likes">0</span>
                 </div>
             </div>
@@ -72,16 +69,17 @@
             <!-- 댓글 입력 영역 -->
             <div class="comment-section">
                 <div class="comment-input-container">
-                    <img id="user-profile" src="../assets/images/default_profile.png">
+                    <img id="user-profile" src="/assets/images/default_profile.png" alt="내 프로필">
                     <span id="comment-username">닉네임</span>
                     <input type="text" id="comment-input" placeholder="댓글을 입력해주세요">
                 </div>
+                <!-- 댓글 리스트 -->
                 <ul id="comment-list"></ul>
             </div>
         </section>
     </main>
 
-    <script src="../scripts/review-detail.js"></script>
-    <script src="../scripts/common.js"></script>
+    <script src="/scripts/review-detail.js"></script>
+    <script src="/scripts/common.js"></script>
 </body>
 </html>

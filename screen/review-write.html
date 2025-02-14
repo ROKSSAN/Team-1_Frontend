@@ -38,33 +38,28 @@
 
         <section class="review-content">
             <div class="review-header">
-                <img id="review-author-image" class="profile-icon" src="../assets/images/profile_1.svg" alt="작성자 프로필">
+                <img id="review-author-image" class="profile-icon" src="../assets/images/profile_image.svg" alt="작성자 프로필">
                 <span id="review-author">닉네임</span>
             </div>
 
             <div class="review-box">
+                <div class="rating-section">
+                    <p><strong id="rating-book-title">&lt;책 제목&gt;</strong>에 대한 별점</p>
+                    <div class="stars" id="star-container">
+                        <img src="../assets/images/empty_star.svg" class="star" data-value="1">
+                        <img src="../assets/images/empty_star.svg" class="star" data-value="2">
+                        <img src="../assets/images/empty_star.svg" class="star" data-value="3">
+                        <img src="../assets/images/empty_star.svg" class="star" data-value="4">
+                        <img src="../assets/images/empty_star.svg" class="star" data-value="5">
+                        <span id="rating-value">0.0점</span>
+                    </div>
+                </div>
+
                 <textarea id="review-text" class="review-text" placeholder="본문 입력"></textarea>
 
                 <div class="review-actions">
                     <button id="publish-review" class="publish-button">발행</button>
                 </div>
-            </div>
-
-            <div class="review-rating-box">
-                <p><strong>&lt;책 제목&gt;</strong>에 대한 별점</p>
-                <div class="stars" id="star-container">
-                  <div class="stars" id="star-container">
-                    <img src="../assets/images/empty_star.svg" class="star" data-value="1">
-                    <img src="../assets/images/empty_star.svg" class="star" data-value="2">
-                    <img src="../assets/images/empty_star.svg" class="star" data-value="3">
-                    <img src="../assets/images/empty_star.svg" class="star" data-value="4">
-                    <img src="../assets/images/empty_star.svg" class="star" data-value="5">
-                    <span id="rating-value">0.0점</span>
-                </div>
-                
-                    
-                </div>
-                <button id="save-rating" class="save-button">저장</button>
             </div>
         </section>
     </main>

@@ -1,210 +1,325 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  console.log("✅ DOMContentLoaded 이벤트 발생");
+    console.log("✅ DOMContentLoaded 이벤트 발생");
 
-  const params = new URLSearchParams(window.location.search);
-  const reviewId = params.get("id");
-  const token = localStorage.getItem("token") || null;
-  const username = localStorage.getItem("username") || "로그인 필요"; // ✅ undefined 방지
+    const params = new URLSearchParams(window.location.search);
+    const reviewId = params.get("id");
+    const token = localStorage.getItem("token") || null;
+    const username = localStorage.getItem("username") || "로그인 필요";
+    let currentUser = null;
 
-  if (!reviewId) {
-      alert("잘못된 접근입니다.");
-      window.location.href = "main.html";
-      return;
-  }
+    // HTML 요소 참조
+    const reviewAuthor = document.getElementById("review-author");
+    const reviewAuthorImage = document.getElementById("review-author-image");
+    const reviewDate = document.getElementById("review-date");
+    const reviewText = document.getElementById("review-text");
+    const reviewLikes = document.getElementById("review-likes");
+    const heartIcon = document.getElementById("heart-icon");
+    const bookImage = document.getElementById("book-image");
+    const bookTitle = document.getElementById("book-title");
+    const reviewRating = document.getElementById("review-rating");
+    const ratingValue = document.getElementById("rating-value");
+    const editButton = document.getElementById("edit-button");
+    const deleteButton = document.getElementById("delete-button");
+    const commentInput = document.getElementById("comment-input");
+    const commentList = document.getElementById("comment-list");
+    const commentUsername = document.getElementById("comment-username");
+    const userProfile = document.getElementById("user-profile");
 
-  // 🎯 HTML 요소 가져오기
-  const reviewAuthor = document.getElementById("review-author");
-  const reviewDate = document.getElementById("review-date");
-  const reviewText = document.getElementById("review-text");
-  const reviewLikes = document.getElementById("review-likes");
-  const heartIcon = document.getElementById("heart-icon");
-  const bookImage = document.getElementById("book-image");
-  const bookTitle = document.getElementById("book-title");
-  const reviewRating = document.getElementById("review-rating");
-  const ratingValue = document.getElementById("rating-value");
-  const editButton = document.getElementById("edit-button");
-  const deleteButton = document.getElementById("delete-button");
-  const commentInput = document.getElementById("comment-input");
-  const commentList = document.getElementById("comment-list");
-  const commentUsername = document.getElementById("comment-username");
+    let isLiked = false;
+    let likesCount = 0;
 
-  // ✅ 로그인한 사용자 닉네임 설정
-  if (commentUsername) {
-      commentUsername.textContent = username;
-  }
+    // 초기에 수정/삭제 버튼 숨기기
+    if (editButton) editButton.style.display = "none";
+    if (deleteButton) deleteButton.style.display = "none";
 
-  let isLiked = false;
-  let likesCount = 0;
-  let isProcessing = false;
+    if (!reviewId) {
+        alert("잘못된 접근입니다.");
+        window.location.href = "main.html";
+        return;
+    }
 
-  try {
-      /** ✅ 1. 리뷰 데이터 불러오기 */
-      const reviewResponse = await fetch(`http://127.0.0.1:8000/api/review/${reviewId}/`);
-      if (!reviewResponse.ok) throw new Error("리뷰 데이터를 불러올 수 없습니다.");
+    // 현재 로그인한 사용자 정보 가져오기
+    if (token) {
+        try {
+            const userResponse = await fetch("http://127.0.0.1:8000/api/user/me/", {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+            if (userResponse.ok) {
+                currentUser = await userResponse.json();
+                console.log("✅ 현재 로그인한 사용자:", currentUser);
 
-      const review = await reviewResponse.json();
-      console.log("✅ API 응답 (리뷰 데이터):", review);
+                // 댓글 입력창에 사용자 정보 표시
+                if (commentUsername) commentUsername.textContent = currentUser.nickname;
+                if (userProfile) {
+                    userProfile.src = `http://127.0.0.1:8000/api/user/profile/${currentUser.nickname}/`;
+                    userProfile.onerror = () => {
+                        userProfile.src = "/assets/images/profile_image.svg";
+                    };
+                }
+            }
+        } catch (error) {
+            console.error("🚨 사용자 정보 불러오기 오류:", error);
+        }
+    }
 
-      reviewAuthor.textContent = review.user_nickname;
-      reviewDate.textContent = formatDate(review.created_at);
-      reviewText.textContent = review.content;
-      likesCount = review.likes_count;
-      reviewLikes.textContent = likesCount;
-      ratingValue.textContent = review.rating.toFixed(1);
+    try {
+        // 리뷰 데이터 불러오기
+        const reviewResponse = await fetch(`http://127.0.0.1:8000/api/review/${reviewId}/`);
+        if (!reviewResponse.ok) throw new Error("리뷰 데이터를 불러올 수 없습니다.");
 
-      // ⭐ 별점 시각화
-      reviewRating.innerHTML = generateStars(review.rating);
+        const review = await reviewResponse.json();
+        console.log("✅ 리뷰 데이터:", review);
 
-      /** ✅ 2. 사용자가 작성한 리뷰인지 확인 (수정/삭제 버튼 노출) */
-      if (token) {
-          const userReviewResponse = await fetch(`http://127.0.0.1:8000/api/review/library/`, {
-              headers: { "Authorization": `Bearer ${token}` }
-          });
+        // 리뷰 작성자와 현재 사용자가 같은지 확인
+        const isAuthor = currentUser && currentUser.nickname === review.user_nickname;
 
-          if (userReviewResponse.ok) {
-              const userReviews = await userReviewResponse.json();
-              const isUserReview = userReviews.some(r => r.id === review.id);
+        // 수정/삭제 버튼 표시 및 이벤트 처리
+        if (isAuthor) {
+            if (editButton) {
+                editButton.style.display = "inline-block";
+                editButton.addEventListener("click", () => {
+                    window.location.href = `review-write.html?id=${reviewId}`;
+                });
+            }
 
-              if (isUserReview) {
-                  editButton.style.display = "inline-block";
-                  deleteButton.style.display = "inline-block";
+            if (deleteButton) {
+                deleteButton.style.display = "inline-block";
+                deleteButton.addEventListener("click", async () => {
+                    if (!confirm("정말 삭제하시겠습니까?")) return;
 
-                  // ✅ 수정 버튼 클릭 시 review-write 페이지로 이동
-                  editButton.addEventListener("click", () => {
-                      localStorage.setItem("editReview", JSON.stringify(review));
-                      window.location.href = `review-write.html?id=${reviewId}`;
-                  });
+                    try {
+                        const deleteResponse = await fetch(`http://127.0.0.1:8000/api/review/${reviewId}/`, {
+                            method: "DELETE",
+                            headers: {
+                                "Authorization": `Bearer ${token}`,
+                                "Content-Type": "application/json"
+                            }
+                        });
 
-                  // ✅ 삭제 버튼 클릭 시 삭제 요청
-                  deleteButton.addEventListener("click", async () => {
-                      if (!confirm("정말 삭제하시겠습니까?")) return;
+                        if (deleteResponse.ok) {
+                            alert("리뷰가 삭제되었습니다.");
+                            window.location.href = "library.html";
+                        } else {
+                            const errorData = await deleteResponse.json();
+                            throw new Error(errorData.detail || "리뷰 삭제 실패");
+                        }
+                    } catch (error) {
+                        console.error("🚨 리뷰 삭제 오류:", error);
+                        alert(error.message);
+                    }
+                });
+            }
+        }
 
-                      const deleteResponse = await fetch(`http://127.0.0.1:8000/api/review/${reviewId}/`, {
-                          method: "DELETE",
-                          headers: { "Authorization": `Bearer ${token}` }
-                      });
+        // 리뷰 정보 표시
+        if (reviewAuthor) reviewAuthor.textContent = review.user_nickname;
+        if (reviewAuthorImage) {
+            reviewAuthorImage.src = `http://127.0.0.1:8000/api/user/profile/${review.user_nickname}/`;
+            reviewAuthorImage.onerror = () => {
+                reviewAuthorImage.src = "/assets/images/profile_image.svg";
+            };
+        }
 
-                      if (deleteResponse.ok) {
-                          alert("리뷰가 삭제되었습니다.");
-                          window.location.href = "library.html";
-                      } else {
-                          alert("리뷰 삭제 실패");
-                      }
-                  });
-              }
-          }
-      }
+        if (reviewDate) reviewDate.textContent = formatDate(review.created_at);
+        if (reviewText) reviewText.textContent = review.content;
+        likesCount = review.likes_count;
+        if (reviewLikes) reviewLikes.textContent = likesCount;
+        if (ratingValue) ratingValue.textContent = review.rating.toFixed(1);
 
-      /** ✅ 3. ISBN을 이용하여 책 정보 불러오기 */
-      const bookResponse = await fetch(`http://127.0.0.1:8000/api/book/isbn/${review.isbn}/`);
-      if (bookResponse.ok) {
-          const book = await bookResponse.json();
-          bookImage.src = book.image_url;
-          bookTitle.textContent = book.title;
+        // 별점 시각화
+        if (reviewRating) reviewRating.innerHTML = generateStars(review.rating);
 
-          // ✅ 책 표지 클릭 시 상세 페이지 이동
-          bookImage.style.cursor = "pointer";
-          bookImage.addEventListener("click", () => {
-              window.location.href = `book-detail.html?isbn=${review.isbn}`;
-          });
-      } else {
-          bookTitle.textContent = "책 정보를 찾을 수 없습니다.";
-          bookImage.src = "../assets/images/no_image.png";
-      }
+        // 좋아요 상태 확인
+        if (token && heartIcon) {
+            try {
+                const likedResponse = await fetch("http://127.0.0.1:8000/api/review/liked/", {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                if (likedResponse.ok) {
+                    const likedReviews = await likedResponse.json();
+                    isLiked = likedReviews.some(item => item.review_id === review.id);
+                    heartIcon.src = `/assets/images/${isLiked ? 'full' : 'empty'}_heart.svg`;
+                }
+            } catch (error) {
+                console.error("🚨 좋아요 상태 확인 오류:", error);
+            }
+        }
 
-      /** ✅ 4. 기존 댓글 불러오기 */
-      loadComments();
+        // 좋아요 토글 이벤트
+        if (heartIcon && token) {
+            heartIcon.addEventListener("click", async () => {
+                try {
+                    const response = await fetch(`http://127.0.0.1:8000/api/review/${reviewId}/like/`, {
+                        method: "POST",
+                        headers: { "Authorization": `Bearer ${token}` }
+                    });
 
-  } catch (error) {
-      console.error("🚨 데이터 불러오기 오류:", error);
-  }
+                    if (!response.ok) throw new Error("좋아요 처리 실패");
 
-  /** ✅ 5. Enter 키로 댓글 추가 기능 */
-  commentInput.addEventListener("keypress", async (event) => {
-      if (event.key === "Enter" && !event.shiftKey) {
-          event.preventDefault();
-          await submitComment();
-      }
-  });
+                    const data = await response.json();
+                    isLiked = data.message === "Like added";
+                    likesCount = data.likes_count;
 
-  /** ✅ 댓글 불러오기 */
-  async function loadComments() {
-      try {
-          const response = await fetch(`http://127.0.0.1:8000/api/review/${reviewId}/comments/list/`, {
-              headers: token ? { "Authorization": `Bearer ${token}` } : {}
-          });
+                    heartIcon.src = `/assets/images/${isLiked ? 'full' : 'empty'}_heart.svg`;
+                    if (reviewLikes) reviewLikes.textContent = likesCount;
+                } catch (error) {
+                    console.error("🚨 좋아요 처리 오류:", error);
+                    alert("좋아요 처리 중 오류가 발생했습니다.");
+                }
+            });
+        }
 
-          if (!response.ok) throw new Error("댓글을 불러올 수 없습니다.");
+        // 책 정보 불러오기
+        if (bookImage && bookTitle) {
+            const bookResponse = await fetch(`http://127.0.0.1:8000/api/book/isbn/${review.isbn}/`);
+            if (bookResponse.ok) {
+                const book = await bookResponse.json();
+                bookImage.src = book.image_url;
+                bookTitle.textContent = book.title;
 
-          const comments = await response.json();
-          commentList.innerHTML = comments.map(comment => `
-              <li class="comment-item">
-                  <img src="../assets/images/profile_1.png" alt="사용자 프로필" class="comment-profile">
-                  <span class="comment-author">${comment.user_nickname}</span>
-                  <span class="comment-text">${comment.content}</span>
-              </li>
-          `).join("");
-      } catch (error) {
-          console.error("🚨 댓글 불러오기 오류:", error);
-      }
-  }
+                bookImage.addEventListener("click", () => {
+                    window.location.href = `book-detail.html?isbn=${review.isbn}`;
+                });
+            } else {
+                bookTitle.textContent = "책 정보를 찾을 수 없습니다.";
+                bookImage.src = "/assets/images/no_image.png";
+            }
+        }
 
-  /** ✅ 댓글 등록 함수 */
-  async function submitComment() {
-      const commentText = commentInput.value.trim();
-      if (!commentText) return;
+        // 댓글 로드
+        loadComments();
 
-      if (!token) {
-          alert("로그인이 필요합니다.");
-          return;
-      }
+    } catch (error) {
+        console.error("🚨 데이터 불러오기 오류:", error);
+        alert("리뷰를 불러오는 중 오류가 발생했습니다.");
+    }
 
-      try {
-          const response = await fetch(`http://127.0.0.1:8000/api/review/${reviewId}/comments/`, {
-              method: "POST",
-              headers: {
-                  "Authorization": `Bearer ${token}`,
-                  "Content-Type": "application/json"
-              },
-              body: JSON.stringify({ content: commentText })
-          });
+    // 댓글 입력 처리
+    if (commentInput) {
+        commentInput.addEventListener("keypress", async (event) => {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                await submitComment();
+            }
+        });
+    }
 
-          if (!response.ok) throw new Error("댓글 등록 실패");
+    async function loadComments() {
+        try {
+            const response = await fetch(`http://127.0.0.1:8000/api/review/${reviewId}/comments/list/`, {
+                headers: token ? { "Authorization": `Bearer ${token}` } : {}
+            });
 
-          const newComment = await response.json();
-          console.log("✅ 댓글 등록 성공:", newComment);
+            if (!response.ok) {
+                throw new Error(await response.text());
+            }
 
-          // ✅ 댓글 리스트에 추가
-          addCommentToList(newComment);
-          commentInput.value = "";
-      } catch (error) {
-          console.error("🚨 댓글 등록 오류:", error);
-          alert("댓글 등록 중 오류가 발생했습니다.");
-      }
-  }
+            const comments = await response.json();
+            if (commentList) {
+                commentList.innerHTML = comments.map(comment => `
+                    <li class="comment-item">
+                        <div class="comment-content">
+                            <img src="http://127.0.0.1:8000/api/user/profile/${comment.user_nickname}/"
+                                 alt="프로필" class="comment-profile"
+                                 onerror="this.src='/assets/images/profile_image.svg'">
+                            <div class="comment-info">
+                                <span class="comment-author">${comment.user_nickname}</span>
+                                <span class="comment-text">${comment.content}</span>
+                            </div>
+                            ${currentUser && currentUser.nickname === comment.user_nickname ? `
+                               
+                            ` : ''}
+                        </div>
+                    </li>
+                `).join('');
 
-  /** ✅ 댓글 리스트에 추가하는 함수 */
-  function addCommentToList(comment) {
-      const li = document.createElement("li");
-      li.classList.add("comment-item");
-      li.innerHTML = `
-          <img src="../assets/images/profile_1.png" alt="사용자 프로필" class="comment-profile">
-          <span class="comment-author">${comment.user_nickname}</span>
-          <span class="comment-text">${comment.content}</span>
-      `;
-      commentList.prepend(li);
-  }
+                // 삭제 버튼에 이벤트 리스너 추가
+                document.querySelectorAll('.delete-comment').forEach(button => {
+                    button.addEventListener('click', async (e) => {
+                        if (!confirm('댓글을 삭제하시겠습니까?')) return;
+
+                        const commentId = e.target.dataset.commentId;
+                        try {
+                            const response = await fetch(`http://127.0.0.1:8000/api/review/${reviewId}/comments/`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Authorization': `Bearer ${token}`,
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ comment_id: commentId })
+                            });
+
+                            if (response.ok) {
+                                await loadComments();
+                            } else {
+                                const errorText = await response.text();
+                                throw new Error(errorText);
+                            }
+                        } catch (error) {
+                            console.error('🚨 댓글 삭제 오류:', error);
+                            alert('댓글 삭제 중 오류가 발생했습니다.');
+                        }
+                    });
+                });
+            }
+        } catch (error) {
+            console.error("🚨 댓글 불러오기 오류:", error);
+            if (commentList) {
+                commentList.innerHTML = '<li class="comment-error">댓글을 불러오는 중 오류가 발생했습니다.</li>';
+            }
+        }
+    }
+
+    async function submitComment() {
+        const content = commentInput.value.trim();
+        if (!content) return;
+
+        if (!token) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://127.0.0.1:8000/api/review/${reviewId}/comments/`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ content })
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText);
+            }
+
+            commentInput.value = "";
+            await loadComments();
+        } catch (error) {
+            console.error("🚨 댓글 등록 오류:", error);
+            alert("댓글 등록 중 오류가 발생했습니다.");
+        }
+    }
 });
 
-/** ✅ 날짜 변환 함수 */
 function formatDate(dateString) {
-  const date = new Date(dateString);
-  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}.${month}.${day}`;
 }
 
-/** ✅ 별점 렌더링 함수 */
 function generateStars(rating) {
-  return [...Array(5)].map((_, i) => 
-      `<img src="../assets/images/${rating > i ? (rating >= i + 1 ? "full" : "half") : "empty"}_star.svg" class="star-icon">`
-  ).join("");
+    return [...Array(5)].map((_, i) => {
+        let starType;
+        const difference = rating - i;
+
+        if (difference >= 1) starType = "full_star";
+        else if (difference > 0) starType = "half_star";
+        else starType = "empty_star";
+
+        return `<img src="/assets/images/${starType}.svg" alt="별점" class="star-icon">`;
+    }).join('');
 }
