@@ -160,3 +160,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   loadBookDetails();
   loadReviews();
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const writeReviewBtn = document.getElementById("write-review-btn");
+
+  if (writeReviewBtn) {
+      writeReviewBtn.addEventListener("click", () => {
+          const params = new URLSearchParams(window.location.search);
+          const isbn = params.get("isbn"); // 현재 페이지에서 ISBN 가져오기
+
+          if (!isbn) {
+              alert("도서 정보를 찾을 수 없습니다.");
+              return;
+          }
+
+          window.location.href = `review-write.html?isbn=${isbn}`; // 리뷰 작성 페이지로 이동
+      });
+  }
+});

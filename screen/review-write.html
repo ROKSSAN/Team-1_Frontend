@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>리뷰 작성 - 다독다독</title>
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/review-write.css">
+    <link href="https://cdn.jsdelivr.net/npm/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+      <nav class="navbar">
+          <a href="main.html" class="logo">
+              <img src="../assets/images/logo.png" alt="다독다독 로고">
+              <span class="logo-text"><span class="first">다독</span><span class="second">다독</span></span>
+          </a>
+          <ul class="nav-links">
+              <li><a href="library.html">내 서재</a></li>
+              <li><a href="goals.html" class="active">목표 및 통계</a></li>
+          </ul>
+          <input type="text" class="search-bar" placeholder="검색">
+          <div class="user-actions">
+              <a href="index.html" class="login-button" id="login-btn">로그인</a>
+              <a href="mypage.html" class="profile-button" id="profile-btn" style="display: none;">내 정보</a>
+              <button class="logout-button" id="logout-btn" style="display: none;">로그아웃</button>
+          </div>
+      </nav>
+  </header>
+
+    <main class="review-container">
+        <aside class="book-info">
+            <h2 id="book-title">책 제목</h2>
+            <img id="book-image" src="" alt="책 표지">
+            <p id="book-author"></p>
+            <p id="book-publisher"></p>
+        </aside>
+
+        <section class="review-content">
+            <div class="review-header">
+                <img id="review-author-image" class="profile-icon" src="../assets/images/profile_1.svg" alt="작성자 프로필">
+                <span id="review-author">닉네임</span>
+            </div>
+
+            <div class="review-box">
+                <textarea id="review-text" class="review-text" placeholder="본문 입력"></textarea>
+
+                <div class="review-actions">
+                    <button id="publish-review" class="publish-button">발행</button>
+                </div>
+            </div>
+
+            <div class="review-rating-box">
+                <p><strong>&lt;책 제목&gt;</strong>에 대한 별점</p>
+                <div class="stars" id="star-container">
+                  <div class="stars" id="star-container">
+                    <img src="../assets/images/empty_star.svg" class="star" data-value="1">
+                    <img src="../assets/images/empty_star.svg" class="star" data-value="2">
+                    <img src="../assets/images/empty_star.svg" class="star" data-value="3">
+                    <img src="../assets/images/empty_star.svg" class="star" data-value="4">
+                    <img src="../assets/images/empty_star.svg" class="star" data-value="5">
+                    <span id="rating-value">0.0점</span>
+                </div>
+                
+                    
+                </div>
+                <button id="save-rating" class="save-button">저장</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="../scripts/review-write.js"></script>
+    <script src="../scripts/common.js"></script>
+</body>
+</html>

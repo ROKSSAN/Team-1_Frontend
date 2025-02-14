@@ -40,7 +40,7 @@ body {
   display: inline-block;
   margin-top: 15px;
   padding: 8px 12px;
-  background-color: #6366f1;
+  background-color: #FFC200;
   color: white;
   text-decoration: none;
   border-radius: 5px;
@@ -48,7 +48,7 @@ body {
 }
 
 #book-link:hover {
-  background-color: #4f46e5;
+  background-color: #E5AE00;
 }
 
 /* 📌 리뷰 & 추천 도서 6:4 비율 배치 */
@@ -117,4 +117,33 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* ✅ 리뷰 헤더 스타일 */
+.reviews-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+/* ✅ 리뷰 쓰기 버튼 스타일 (위치 미세 조정) */
+#write-review-btn {
+  position: absolute;
+  left: 90%; /* 기존 90% → 오른쪽으로 약간 이동 */
+  top: 29px; /* Y축 이동 (기존보다 아주 조금 낮춤) */
+  transform: translateX(-50%);
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  color: #555;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* ✅ 버튼 hover 효과 (밑줄 표시) */
+#write-review-btn:hover {
+  text-decoration: underline;
 }

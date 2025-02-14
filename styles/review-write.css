@@ -1,0 +1,158 @@
+body {
+  font-family: 'Pretendard', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+.review-container {
+  display: flex;
+  width: 90%;
+  margin: 40px auto;
+}
+
+/* 책 정보 (왼쪽) */
+.book-info {
+  flex: 1;
+  text-align: left;
+  padding: 20px;
+}
+
+.book-info h2 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.book-info img {
+  width: 140px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 리뷰 작성 (오른쪽) */
+.review-content {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.profile-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.review-header span {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* 리뷰 입력 박스 */
+.review-box {
+  width: 90%;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.review-title {
+  width: 100%;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: 1px solid #ddd; /* ✅ 테두리 추가 */
+  border-radius: 4px;
+  outline: none;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.review-text {
+  width: 100%;
+  height: 200px;
+  border: 1px solid #ddd; /* ✅ 테두리 추가 */
+  border-radius: 4px;
+  outline: none;
+  font-size: 1rem;
+  padding: 10px;
+  resize: none;
+}
+
+.review-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.draft-button, .publish-button {
+  background: #e0e0e0;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.publish-button {
+  background: #FFC200;
+  color: white;
+}
+
+.publish-button:hover {
+  background: #E5AE00;
+}
+
+/* 별점 평가 박스 */
+.review-rating-box {
+  width: 91.5%;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.review-rating-box p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.star {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+/* ✅ 저장 버튼 수정 */
+.save-button {
+  background: #FFC200; /* ✅ 세미콜론 추가 */
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.save-button:hover {
+  background: #E5AE00; /* ✅ hover 시 색상 변경 */
+}

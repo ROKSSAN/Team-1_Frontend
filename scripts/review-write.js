@@ -208,3 +208,60 @@ function generateStars(rating) {
       `<img src="../assets/images/${rating > i ? (rating >= i + 1 ? "full" : "half") : "empty"}_star.svg" class="star-icon">`
   ).join("");
 }
+
+/** ✅ 좋아요 버튼 기능 */
+async function toggleLike() {
+  if (!token) {
+      alert("로그인이 필요합니다.");
+      return;
+  }
+
+  if (isProcessing) return;
+  isProcessing = true;
+
+  try {
+      const response = await fetch(`http://127.0.0.1:8000/api/review/${reviewId}/like/`, {
+          method: isLiked ? "DELETE" : "POST",
+          headers: { "Authorization": `Bearer ${token}` }
+      });
+
+      if (!response.ok) throw new Error("좋아요 처리 실패");
+
+      isLiked = !isLiked;
+      likesCount += isLiked ? 1 : -1;
+      reviewLikes.textContent = likesCount;
+      heartIcon.src = isLiked ? "../assets/images/full_heart.svg" : "../assets/images/empty_heart.svg";
+      localStorage.setItem(`liked_review_${reviewId}`, isLiked);
+  } catch (error) {
+      console.error("🚨 좋아요 처리 오류:", error);
+      alert("좋아요 기능에 오류가 발생했습니다.");
+  } finally {
+      isProcessing = false;
+  }
+}
+
+/** ✅ 기존 좋아요 상태 확인 */
+async function loadLikeStatus() {
+  if (!token) return;
+
+  try {
+      const response = await fetch(`http://127.0.0.1:8000/api/review/liked/`, {
+          headers: { "Authorization": `Bearer ${token}` }
+      });
+
+      if (!response.ok) throw new Error("좋아요 상태 불러오기 실패");
+
+      const likedReviews = await response.json();
+      isLiked = likedReviews.some(review => review.review_id === parseInt(reviewId));
+
+      heartIcon.src = isLiked ? "../assets/images/full_heart.svg" : "../assets/images/empty_heart.svg";
+  } catch (error) {
+      console.error("🚨 좋아요 상태 불러오기 오류:", error);
+  }
+}
+
+// ✅ 이벤트 리스너 추가
+heartIcon.addEventListener("click", toggleLike);
+
+// ✅ 좋아요 상태 로드
+loadLikeStatus();

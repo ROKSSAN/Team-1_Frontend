@@ -35,37 +35,47 @@
             <p id="book-author"></p>
             <p id="book-publisher"></p>
         </aside>
+        
         <section class="review-content">
+            <!-- 작성자 정보 -->
             <div class="review-header">
-                <img id="review-author-image" class="profile-icon" src="" alt="작성자 프로필">
-                <span id="review-author"></span>
-                <span id="review-date"></span>
+                <div class="review-author-container">
+                    <img id="review-author-image" class="profile-icon" src="../assets/images/default_profile.png" alt="작성자 프로필">
+                    <span id="review-author"></span>
+                </div>
+                <span id="review-date" class="review-date"></span>
             </div>
 
             <div class="review-box">
                 <div class="review-box-top">
-                    <span id="box-book-title" class="box-book-title"></span>
+                    <h2 id="box-book-title" class="box-book-title"></h2>
                     <div class="review-actions" id="review-actions">
                         <button id="edit-button" style="display: none;">수정</button>
                         <button id="delete-button" style="display: none;">삭제</button>
                     </div>
+                </div>
+
+                <!-- 별점 -->
+                <div class="review-rating-container">
                     <div class="review-rating" id="review-rating"></div>
                     <span id="rating-value" class="rating-value"></span>
-                    <div id="review-rating"></div>
-                    <span id="rating-value"></span>
-
                 </div>
 
                 <p id="review-text"></p>
 
                 <div class="heart-container">
-                    <img id="heart-icon" src="" alt="좋아요 버튼" class="heart-icon">
+                    <img id="heart-icon" src="../assets/images/empty_heart.svg" alt="좋아요 버튼" class="heart-icon">
                     <span id="review-likes">0</span>
                 </div>
             </div>
 
-            <div id="review-comments">
-                <h3>댓글</h3>
+            <!-- 댓글 입력 영역 -->
+            <div class="comment-section">
+                <div class="comment-input-container">
+                    <img id="user-profile" src="../assets/images/default_profile.png">
+                    <span id="comment-username">닉네임</span>
+                    <input type="text" id="comment-input" placeholder="댓글을 입력해주세요">
+                </div>
                 <ul id="comment-list"></ul>
             </div>
         </section>
