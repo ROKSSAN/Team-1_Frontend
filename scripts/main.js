@@ -5,35 +5,39 @@ document.addEventListener("DOMContentLoaded", async () => {
     const goalProgress = document.getElementById("goal-progress");
     const logoutBtn = document.getElementById("logout-btn");
 
-    // ✅ 최신 리뷰가 달린 도서 불러오기
-    async function loadRecentBooks() {
-        try {
-            const response = await fetch("http://127.0.0.1:8000/api/book/recent-reviews/");
-            if (!response.ok) throw new Error("최근 도서를 불러오지 못했습니다.");
+    // ✅ 최신 리뷰가 달린 도서 불러오기 (역순 정렬)
+async function loadRecentBooks() {
+    try {
+        const response = await fetch("http://127.0.0.1:8000/api/book/recent-reviews/");
+        if (!response.ok) throw new Error("최근 도서를 불러오지 못했습니다.");
 
-            const books = await response.json();
-            if (books.length === 0) {
-                recentBooksContainer.innerHTML = "<p>최근 리뷰가 달린 도서가 없습니다.</p>";
-                return;
-            }
-
-            // ✅ 최대 6권만 표시 (3x2 레이아웃)
-            let bookHTML = books.slice(0, 6).map(book => {
-                return `
-                    <div class="book-card" onclick="location.href='book-detail.html?isbn=${book.isbn}'">
-                        <img src="${book.image_url}" alt="${book.title}" class="book-cover">
-                        <p class="book-title">${book.title}</p>
-                        <p class="book-author">${book.author}</p>
-                    </div>
-                `;
-            }).join("");
-
-            recentBooksContainer.innerHTML = bookHTML;
-        } catch (error) {
-            console.error("최근 도서 불러오기 오류:", error);
-            recentBooksContainer.innerHTML = "<p>데이터를 불러오는 중 오류가 발생했습니다.</p>";
+        let books = await response.json();
+        if (books.length === 0) {
+            recentBooksContainer.innerHTML = "<p>최근 리뷰가 달린 도서가 없습니다.</p>";
+            return;
         }
+
+        // ✅ 최신순 정렬 (API에서 제공된 순서의 역순)
+        books.reverse();
+
+        // ✅ 최대 6권만 표시 (3x2 레이아웃)
+        let bookHTML = books.slice(0, 6).map(book => {
+            return `
+                <div class="book-card" onclick="location.href='book-detail.html?isbn=${book.isbn}'">
+                    <img src="${book.image_url}" alt="${book.title}" class="book-cover">
+                    <p class="book-title">${book.title}</p>
+                    <p class="book-author">${book.author}</p>
+                </div>
+            `;
+        }).join("");
+
+        recentBooksContainer.innerHTML = bookHTML;
+    } catch (error) {
+        console.error("최근 도서 불러오기 오류:", error);
+        recentBooksContainer.innerHTML = "<p>데이터를 불러오는 중 오류가 발생했습니다.</p>";
     }
+}
+
 
     // ✅ 독서 목표 데이터 불러오기
     async function loadGoalProgress() {

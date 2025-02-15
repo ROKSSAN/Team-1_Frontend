@@ -24,7 +24,7 @@ if (!accessToken) {
 }
 
 // ✅ **회원 정보 조회 API 호출 (초기 데이터 로드)**
-fetch('/api/user/me/', {
+fetch('http://127.0.0.1:8000/api/user/me/', {
     method: 'GET',
     headers: {
         'Authorization': `Bearer ${accessToken}`
@@ -57,60 +57,51 @@ nextButton.addEventListener("click", () => {
     profileImage.src = images[currentImage];
 });
 
-// ✅ **프로필 업데이트 요청 (이미지 변경 API + 닉네임/비밀번호 업데이트 API)**
-saveButton.addEventListener("click", () => {
-    const nickname = nicknameInput.value;
-    const password = passwordInput.value;
-    const profileImageSrc = images[currentImage].split('/').pop(); // 파일명만 추출
+// ✅ **프로필 업데이트 요청 (이미지 + 닉네임 + 비밀번호)**
+saveButton.addEventListener("click", async () => {
+    const nickname = nicknameInput.value.trim(); // 닉네임 공백 제거
+    const password = passwordInput.value.trim(); // 비밀번호 공백 제거
+    const profileImageSrc = profileImage.src.split('/').pop(); // 파일명만 추출
 
-    // **프로필 이미지 업데이트 API 호출**
-    fetch('/api/user/update-profile-image/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
-        },
-        body: JSON.stringify({
-            profile_image: `profile_images/${profileImageSrc}`
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message) {
-            console.log("프로필 이미지 업데이트 완료:", data);
-        }
-    })
-    .catch(error => {
-        console.error("Error updating profile image:", error);
-        alert("프로필 이미지 업데이트 중 오류가 발생했습니다.");
-    });
+    // ✅ 로컬 경로 -> 서버 경로 변환
+    const profileImageMap = {
+        "profile_image.svg": "profile_images/profile_image.svg",
+        "profile_image1.svg": "profile_images/profile_image1.svg",
+        "profile_image2.svg": "profile_images/profile_image2.svg",
+        "profile_image3.svg": "profile_images/profile_image3.svg",
+        "profile_image4.svg": "profile_images/profile_image4.svg",
+        "profile_image5.svg": "profile_images/profile_image5.svg",
+    };
 
-    // **닉네임과 비밀번호 업데이트 API 호출**
-    fetch('http://127.0.0.1:8000/api/user/update_profile/', {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
-        },
-        body: JSON.stringify({
-            nickname: nickname,
-            password: password
-        })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
+    const serverProfileImage = profileImageMap[profileImageSrc] || `profile_images/${profileImageSrc}`;
+
+    try {
+        // ✅ 변경된 값만 API에 전송
+        const requestBody = {};
+        if (nickname) requestBody.nickname = nickname;
+        if (password) requestBody.password = password;
+        if (serverProfileImage) requestBody.profile_image = serverProfileImage;
+
+        const response = await fetch('http://127.0.0.1:8000/api/user/update_profile/', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        if (!response.ok) throw new Error(`프로필 업데이트 실패: ${response.status}`);
+
+        const data = await response.json();
+
         if (data.message === "Profile updated successfully.") {
             alert("프로필이 성공적으로 업데이트되었습니다.");
             window.location.href = "mypage.html"; // ✅ 저장 후 마이페이지로 이동
         }
-    })
-    .catch(error => {
-        console.error("Error updating profile:", error);
+
+    } catch (error) {
+        console.error("프로필 업데이트 중 오류:", error);
         alert("프로필 업데이트 중 오류가 발생했습니다.");
-    });
+    }
 });

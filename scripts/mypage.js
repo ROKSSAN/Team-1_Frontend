@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    // ✅ 사용자 정보 불러오기
     async function loadUserInfo() {
         try {
             const response = await fetch(`${baseUrl}api/user/me/`, {
@@ -25,22 +24,31 @@ document.addEventListener("DOMContentLoaded", async () => {
                     "Content-Type": "application/json"
                 }
             });
-
+    
             if (!response.ok) throw new Error("사용자 정보 불러오기 실패");
-
+    
             const user = await response.json();
             usernameDisplay.textContent = user.nickname;
             userEmail.value = user.email;
-
-            // ✅ 프로필 이미지 처리 (null 방지 및 경로 보정)
-            console.log("프로필 이미지 URL:", user.profile_image);
-            profileImage.src = user.profile_image 
-                ? `${baseUrl}${user.profile_image}` 
-                : "../assets/images/profile_image.svg";
+    
+            // ✅ 프로필 이미지 변환 로직 추가
+            const profileImageMap = {
+                "profile_images/profile_image.svg": "../assets/images/profile_image.svg",
+                "profile_images/profile_image1.svg": "../assets/images/profile_image1.svg",
+                "profile_images/profile_image2.svg": "../assets/images/profile_image2.svg",
+                "profile_images/profile_image3.svg": "../assets/images/profile_image3.svg",
+                "profile_images/profile_image4.svg": "../assets/images/profile_image4.svg",
+                "profile_images/profile_image5.svg": "../assets/images/profile_image5.svg",
+            };
+    
+            // ✅ 프로필 이미지 URL을 변환하여 적용
+            profileImage.src = profileImageMap[user.profile_image] || "../assets/images/profile_image.svg";
+    
         } catch (error) {
             console.error("사용자 정보 오류:", error);
         }
     }
+    
 
     // ✅ 목표 정보 가져오기
     async function loadGoalData() {
