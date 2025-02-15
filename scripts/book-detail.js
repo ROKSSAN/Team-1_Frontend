@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   let bookUrl = `https://search.shopping.naver.com/book/catalog/${isbn}`; 
 
+  
   // ✅ 책 정보 가져오기
   async function loadBookDetails() {
       try {
