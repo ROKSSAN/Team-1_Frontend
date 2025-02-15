@@ -86,7 +86,7 @@ saveButton.addEventListener("click", () => {
     });
 
     // **닉네임과 비밀번호 업데이트 API 호출**
-    fetch('/api/user/update_profile/', {
+    fetch('http://127.0.0.1:8000/api/user/update_profile/', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
