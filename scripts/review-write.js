@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // DOM 요소 가져오기
     const bookTitle = document.getElementById("book-title");
     const bookImage = document.getElementById("book-image");
+    const ratingbookTitle = document.getElementById("rating-book-title");
     const reviewAuthorImage = document.getElementById("review-author-image");
     const reviewAuthor = document.getElementById("review-author");
     const reviewDate = document.getElementById("review-date");
@@ -82,6 +83,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const book = await bookResponse.json();
             console.log("✅ 불러온 책 정보:", book);
 
+            if (ratingbookTitle) ratingbookTitle.textContent = book.title;
             if (bookTitle) bookTitle.textContent = book.title;
             if (bookImage) {
                 bookImage.src = book.image_url || "../assets/images/no_image.png";
@@ -173,57 +175,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    // 별점 저장 기능
+    // 별점 저장 기능 (수정 모드에서는 비활성화)
     if (saveReviewButton) {
-        // 수정 모드에서는 버튼 숨기기
         saveReviewButton.style.display = reviewId ? "none" : "block";
-
-        // 버튼이 보이는 경우(새 리뷰 작성)에만 이벤트 리스너 추가
-        if (!reviewId) {
-            saveReviewButton.addEventListener("click", async () => {
-                if (!token) {
-                    alert("로그인이 필요합니다.");
-                    window.location.href = "index.html";
-                    return;
-                }
-
-                const lastReviewId = localStorage.getItem("last_review_id");
-                if (!lastReviewId) {
-                    alert("먼저 리뷰를 작성해주세요.");
-                    return;
-                }
-
-                if (selectedRating === 0) {
-                    alert("별점을 선택해주세요.");
-                    return;
-                }
-
-                const requestBody = { rating: selectedRating };
-                console.log("📢 별점 저장 요청 데이터:", requestBody);
-
-                try {
-                    const response = await fetch(`http://127.0.0.1:8000/api/review/${lastReviewId}/`, {
-                        method: "PUT",
-                        headers: {
-                            "Authorization": `Bearer ${token}`,
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(requestBody)
-                    });
-
-                    const responseData = await response.json();
-                    console.log("📢 서버 응답 데이터:", responseData);
-
-                    if (!response.ok) throw new Error(responseData.detail || "별점 저장 실패");
-
-                    alert("별점이 성공적으로 저장되었습니다.");
-                    window.location.href = `review-detail.html?id=${lastReviewId}`;
-                } catch (error) {
-                    console.error("🚨 별점 저장 오류:", error);
-                    alert("별점 저장 중 오류가 발생했습니다.");
-                }
-            });
-        }
     }
 });
 
